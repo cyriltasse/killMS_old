@@ -1,0 +1,55 @@
+import numpy
+
+
+# Return the fractional part of the floating point number x.
+def fraction(x):
+  return numpy.modf(x)[0]
+
+# Convert an angle from degrees to radians.
+def deg2rad(angle):
+    return (angle * numpy.pi) / 180.0
+
+# Convert an angle from radians to degrees.
+def rad2deg(angle):
+    return (angle * 180.0) / numpy.pi
+
+# Compute rad from hours, min, sec.
+def ra2rad(ra):
+        return (ra[0] + ra[1]/60.0 + ra[2]/3600.0) * numpy.pi / 12.0
+
+# Compute rad from degrees, arcmin, arcsec.
+def dec2rad(dec):
+        return (dec[0] + dec[1]/60.0 + dec[2]/3600.0) * numpy.pi / 180.0
+
+# Compute hours, min, sec from an angle in radians.
+def rad2ra(angle):
+    deg = numpy.fmod(rad2deg(angle), 360.0)
+    if deg < 0.0:
+        deg += 360.0
+    # Ensure positive output (deg could equal -0.0).
+    deg = abs(deg)
+    assert(deg < 360.0)
+
+    return (int(deg / 15.0), int(fraction(deg / 15.0) * 60.0), fraction(deg * 4.0) * 60.0)
+
+# Compute degrees, arcmin, arcsec from an angle in radians, in the range [-90.0, +90.0].
+def rad2dec(angle):
+    deg = numpy.fmod(rad2deg(angle), 360.0)
+    if deg > 180.0:
+        deg -= 360.0
+    elif deg < -180.0:
+        deg += 360.0
+
+    sign = (deg < 0.0)
+    deg = abs(deg)
+    assert(deg <= 90.0)
+
+    return (sign, int(deg), int(fraction(deg) * 60.0), fraction(deg * 60.0) * 60.0)
+
+# Return string representation of the input right ascension (as returned by rad2ra).
+def ra2str(ra):
+    return "%02d:%02d:%07.4f" % ra
+
+# Return string representation of the input declination (as returned by rad2dec).
+def dec2str(dec):
+    return "%s%02d.%02d.%07.4f" % ("-" if dec[0] else "+", dec[1], dec[2], dec[3])
