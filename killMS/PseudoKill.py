@@ -9,11 +9,11 @@ import multiprocessing
 import scipy.optimize
 import timeit
 from progressbar import ProgressBar
-from MakeTOP import ClassMakeTOP
+from MakeTOP_publi import ClassMakeTOP
 from ClassModMatOp import ClassModMatOp
 import ClassTimeIt
 import ModColor
-import ModKal
+#import ModKal
 
 try:
     import ephem
@@ -64,18 +64,18 @@ def PseudoKill(PM,delta_time=30,niterin=40,NCPU=6,T0=0,T1=-1,PrintProps=0):
         x0=np.ones((NDir*na,),dtype=np.complex) 
         jobs.append([Row0,Row1,x0])
 
-    # ######### DEBUG
-    # pylab.ion()
-    # xi=1.+(np.random.randn(NDir*na)+1j*np.random.randn(NDir*na))*1e-1
-    # #xi.fill(1.)
-    # for itime in range(len(ss)-1):
-    #     time_value=(time_slots_all[ss[itime]]+time_slots_all[ss[itime+1]])/2.
-    #     Row0=ss[itime]*nbl
-    #     Row1=ss[itime+1]*nbl
-    #     xiout,xi=estimate_xi_pseudo(Row0,Row1)
-    #     #xiout,xi=KalmanStep(Row0,Row1,xi)
-    # stop
-    # ######### DEBUG
+    ######### DEBUG
+    pylab.ion()
+    xi=1.+(np.random.randn(NDir*na)+1j*np.random.randn(NDir*na))*1e-1
+    #xi.fill(1.)
+    for itime in range(len(ss)-1):
+        time_value=(time_slots_all[ss[itime]]+time_slots_all[ss[itime+1]])/2.
+        Row0=ss[itime]*nbl
+        Row1=ss[itime+1]*nbl
+        xiout,xi=estimate_xi_pseudo(Row0,Row1)
+        #xiout,xi=KalmanStep(Row0,Row1,xi)
+    stop
+    ######### DEBUG
 
     work_queue = multiprocessing.Queue()
     for job in jobs:
@@ -133,7 +133,36 @@ def estimate_xi_pseudo(Row0,Row1,xi=None):
     NDir=TOP.SM.NDir
 
 
-    #A0mat,Amat=TOP.make_A0new(Row0,Row1)
+    A0mat,Amat=TOP.make_A0new(Row0,Row1)
+
+    pylab.ion()
+    pylab.clf()
+
+    #AA=A0mat[0::10,:].T.copy()
+    AA=np.dot(A0mat.T.conj(),A0mat)
+
+    # pylab.subplot(1,2,1)
+    # pylab.imshow(AA.real,interpolation="nearest")
+    # pylab.draw()
+    # pylab.pause(0.1)
+    # pylab.subplot(1,2,2)
+    # pylab.imshow(AA.imag,interpolation="nearest")
+    # pylab.tight_layout()
+    # pylab.draw()
+    # pylab.pause(0.1)
+    # pylab.show(False)
+
+    #pylab.subplot(1,2,2)
+    pylab.imshow(np.abs(AA),interpolation="nearest",cmap="binary",extent=(-1,1,-1,1))
+    pylab.plot([-1,1],[0,0],ls=":",color="black")
+    pylab.plot([0,0],[-1,1],ls=":",color="black")
+    #pylab.colorbar()
+    pylab.tight_layout()
+    pylab.draw()
+    pylab.pause(0.1)
+    pylab.show(False)
+
+    stop
     #timer.timeit(" A0")
     A0matList,AmatList=TOP.make_A0newList(Row0,Row1)
     #timer.timeit(" A0List")
@@ -157,46 +186,48 @@ def estimate_xi_pseudo(Row0,Row1,xi=None):
     xi=np.random.randn(na*NDir)+1j*np.random.randn(na*NDir)
      
     
-    # # # # x0=np.random.randn(na*NDir)+1j*np.random.randn(na*NDir) #give_x0(time_value)
-    # # # # Amat=TOP.give_Anew(x0,A0mat,Amat,Ntimes)
-    # # # # # timer.timeit(" Amat")
-    # # # # predict0=ModMatOp.dotAvec(Amat,x0.conj(),Ntimes)#np.dot(A,xi.conj())
-    # # # # # timer.timeit(" dotAvec")
-    # # # # b=predict0
-    # # # # xi=x0.copy()
-    # # # # # # indnull=np.abs(b)<1e-4*np.max(np.abs(b))
-    # # # # # # b[indnull]=0.
+    # # # x0=np.random.randn(na*NDir)+1j*np.random.randn(na*NDir) #give_x0(time_value)
+    # # # Amat=TOP.give_Anew(x0,A0mat,Amat,Ntimes)
+    # # # # timer.timeit(" Amat")
+    # # # predict0=ModMatOp.dotAvec(Amat,x0.conj(),Ntimes)#np.dot(A,xi.conj())
+    # # # # timer.timeit(" dotAvec")
+    # # # b=predict0
+    # # # xi=x0.copy()
+    # # # # # indnull=np.abs(b)<1e-4*np.max(np.abs(b))
+    # # # # # b[indnull]=0.
     
-    # # #Q.fill(0.)
-    # # #  for test!!!!
-    # x0.fill(1.)
-    # #x0=np.random.randn(na*NDir)+1j*np.random.randn(na*NDir)
-    # #Amat=TOP.give_Anew(x0,A0mat,Amat,Ntimes)
-    # AmatList=TOP.give_AnewList(x0,A0matList,AmatList,Ntimes)
-    # #predict0=ModMatOp.dotAvec(Amat,x0.conj(),Ntimes)#np.dot(A,xi.conj())
-    # predict0List=ModMatOp.dotAvecList(AmatList,x0.conj(),Ntimes)#np.dot(A,xi.conj())
-    # #b=predict0
-    # pylab.figure(3)
-    # pylab.clf()
-    # pylab.subplot(2,1,1)
-    # pylab.plot(np.real(b),color="black")
-    # #pylab.plot(np.real(predict0),color="black")
-    # pylab.plot(np.real(predict0List),color="green")
-    # #pylab.plot(np.real(predict0-b),color="red")
-    # pylab.plot(np.real(b-predict0List),color="red")
-    # #pylab.ylim(np.min(np.abs(b))-10.,np.max(np.abs(b)))
-    # #pylab.draw()
-    # #pylab.show()
-    # # pylab.subplot(2,1,2)
-    # # pylab.plot(np.angle(b/predict0),color="black")
-    # # #pylab.plot(np.angle(),color="green")
-    # # pylab.ylim(-np.pi,np.pi)
-    # pylab.draw()
-    # pylab.show()
-    # stop
-    # # #show_mat2(linalg.inv(Q),fig=0)
-    # # xi.fill(1.)
-    # # xi=np.random.randn(na*NDir)+1j*np.random.randn(na*NDir)
+    # #Q.fill(0.)
+    # #  for test!!!!
+    x0.fill(1.)
+    #x0=np.random.randn(na*NDir)+1j*np.random.randn(na*NDir)
+    Amat=TOP.give_Anew(x0,A0mat,Amat,Ntimes)
+
+    stop
+    AmatList=TOP.give_AnewList(x0,A0matList,AmatList,Ntimes)
+    #predict0=ModMatOp.dotAvec(Amat,x0.conj(),Ntimes)#np.dot(A,xi.conj())
+    predict0List=ModMatOp.dotAvecList(AmatList,x0.conj(),Ntimes)#np.dot(A,xi.conj())
+    #b=predict0
+    pylab.figure(3)
+    pylab.clf()
+    pylab.subplot(2,1,1)
+    pylab.plot(np.real(b),color="black")
+    #pylab.plot(np.real(predict0),color="black")
+    pylab.plot(np.real(predict0List),color="green")
+    #pylab.plot(np.real(predict0-b),color="red")
+    pylab.plot(np.real(b-predict0List),color="red")
+    #pylab.ylim(np.min(np.abs(b))-10.,np.max(np.abs(b)))
+    #pylab.draw()
+    #pylab.show()
+    # pylab.subplot(2,1,2)
+    # pylab.plot(np.angle(b/predict0),color="black")
+    # #pylab.plot(np.angle(),color="green")
+    # pylab.ylim(-np.pi,np.pi)
+    pylab.draw()
+    pylab.show()
+    stop
+    # #show_mat2(linalg.inv(Q),fig=0)
+    # xi.fill(1.)
+    # xi=np.random.randn(na*NDir)+1j*np.random.randn(na*NDir)
 
     
     xbef=np.zeros((niter,xi.shape[0]),dtype=np.complex)

@@ -2,6 +2,7 @@
 
 import optparse
 import sys
+import pyrap
 
 sys.path=[name for name in sys.path if not(("pyrap" in name)&("/usr/local/lib/" in name))]
 

@@ -7,7 +7,7 @@ import ClassSM
 def read_options():
     desc="""Questions and suggestions: cyril.tasse@obspm.fr"""
     global options
-    opt = optparse.OptionParser(usage='Usage: %prog --ms=somename.MS <options>',version='%prog version 1.0',description=desc)
+    opt = optparse.OptionParser(usage='Usage: %prog <options>',version='%prog version 1.0',description=desc)
     group = optparse.OptionGroup(opt, "* Data-related options", "Won't work if not specified.")
     group.add_option('--SkyModel',help='List of targets [no default]',default='')
     group.add_option('--NCluster',help=' Default is %default',default="0")
