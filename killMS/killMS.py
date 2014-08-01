@@ -41,7 +41,8 @@ def read_options():
     group.add_option('--SkyModel',help='List of targets [no default]',default='')
     opt.add_option_group(group)
     
-    group = optparse.OptionGroup(opt, "* Data selection options", "ColName is set to DATA column by default, and other parameters select all the data.")
+    # group = optparse.OptionGroup(opt, "* Data selection options", "ColName is set to DATA column by default, and other parameters select all the data.")
+    group = optparse.OptionGroup(opt, "* Data selection options")
     group.add_option('--kills',help='Name or number index of sources to kill',default="")
     group.add_option('--invert',help='Invert the selected sources to kill',default="0")
     opt.add_option_group(group)
