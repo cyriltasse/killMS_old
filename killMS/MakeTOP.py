@@ -7,8 +7,9 @@ import time as time_mod
 import os
 import scipy.optimize
 import timeit
+import numexpr as ne
 
-
+        
 class ClassMakeTOP():
     def __init__(self,PMachine,SolvePolMode="I"):
         self.PM=PMachine
@@ -207,7 +208,6 @@ class ClassMakeTOP():
         b=np.zeros((Ntimes*NSPWChan*na*na,),dtype=np.complex)
         Pscal=0.
         coef=0.
-        import numexpr as ne
         ind_all=np.arange(ant0.shape[0])
         #stop
 

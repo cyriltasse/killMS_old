@@ -14,16 +14,12 @@ from ClassModMatOp import ClassModMatOp
 import ClassTimeIt
 import ModColor
 #import ModKal
-
-try:
-    import ephem
-    from pyrap.tables import table
-except ImportError:
-    print 'you have to type "use LofIm" and "use Pythonlibs"'
-    exit()
+from ClassSols import ClassSols
+from pyrap.tables import table
+    
     
 def PseudoKill(PM,delta_time=30,niterin=40,NCPU=6,T0=0,T1=-1,PrintProps=0):
-    import pylab
+    #import pylab
     global TOP, ModMatOp,niter
     delta_time_bins=int(delta_time*60/PM.MS.dt)
     niter=niterin
@@ -101,7 +97,6 @@ def PseudoKill(PM,delta_time=30,niterin=40,NCPU=6,T0=0,T1=-1,PrintProps=0):
         workerlist[ii].terminate()
         workerlist[ii].join()
     
-    from ClassSols import ClassSols
     Sols=ClassSols()
     for ii in range(len(results)):
         iii=ii+1

@@ -2,6 +2,8 @@
 
 import optparse
 import sys
+import MyPickle
+import logo
 
 sys.path=[name for name in sys.path if not(("pyrap" in name)&("/usr/local/lib/" in name))]
 
@@ -120,9 +122,8 @@ def main(options=None):
     if not(MS.DTh in TimesInt): TimesInt.append(MS.DTh)
     
 
-    import pylab
-    pylab.ion()
-    import MyPickle
+    # import pylab
+    # pylab.ion()
     SolsAll=[]
     for i in range(len(TimesInt)-1):
         if SubOnly:
@@ -205,6 +206,5 @@ if __name__=="__main__":
     if options.Restore=="1":
         Restore(options)
     else:
-        import logo
         logo.print_logo()
         main(options=options)
