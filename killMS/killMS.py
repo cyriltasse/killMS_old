@@ -104,6 +104,7 @@ def main(options=None):
     if options.kills!="":
         kills=options.kills.split(",")
     else:
+        invert=True
         kills=[]
     SM=ClassSM.ClassSM(options.SkyModel,infile_cluster="",killdirs=kills,invert=invert,solveFor=[],DoPrintCat=False)
     
@@ -149,6 +150,7 @@ def main(options=None):
 
             #print "no kiill!!!"
             #print "SELCAT!!!!"
+            #print "caca",PMachine.SM.SourceCat.kill
             PMachine.SM.SourceCat=PMachine.SM.SourceCat[PMachine.SM.SourceCat.kill==1]
 
 

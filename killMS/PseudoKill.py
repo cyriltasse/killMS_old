@@ -13,7 +13,7 @@ from MakeTOP import ClassMakeTOP
 from ClassModMatOp import ClassModMatOp
 import ClassTimeIt
 import ModColor
-import ModKal
+#import ModKal
 
 try:
     import ephem
