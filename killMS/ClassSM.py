@@ -10,7 +10,7 @@ import ModClusterRadial
 import ModCluster
 from pyrap.images import image
 import scipy.linalg
-
+import pylab
 
 class ClassSM():
     def __init__(self,infile,infile_cluster="",killdirs=[],invert=False,solveFor=[],DoPrintCat=False,\

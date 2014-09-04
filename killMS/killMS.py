@@ -88,7 +88,7 @@ def main(options=None):
         print "Give an MS name!"
         exit()
     if options.SkyModel=="":
-        print "Give a target list!"
+        print "Give a Sky Model!"
         exit()
     if not(".npy" in options.SkyModel):
         print "Give a numpy sky model!"
