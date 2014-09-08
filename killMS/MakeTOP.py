@@ -84,6 +84,7 @@ class ClassMakeTOP():
         NSPWChan=self.MS.NSPWChan
         SourceCat=self.SM.SourceCat
         dt=self.MS.dt
+        #print row0,row1,self.MS.times_all.shape
         DT=self.MS.times_all[row1]-self.MS.times_all[row0]
 
         A0matList=[]

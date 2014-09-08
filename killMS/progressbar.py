@@ -10,6 +10,8 @@ Usage:
 import sys
 import time as timemod
 import ModColor
+import terminal
+
 
 
 class ProgressBar(object):
@@ -30,7 +32,6 @@ class ProgressBar(object):
         
         if self.silent==1: return
 
-        import terminal
         if color:
             self.color = getattr(terminal, color.upper())
         else:
@@ -84,7 +85,6 @@ class ProgressBar(object):
         """
         
         if self.silent==1: return
-        import terminal
 
         if (self.Title!=None)&(self.HasRendered==False):
             #print
@@ -135,7 +135,6 @@ class ProgressBar(object):
     def clear(self):
         """Clear all printed lines"""
 
-        import terminal
         sys.stdout.write(
             self.lines * (terminal.UP + terminal.BOL + terminal.CLEAR_EOL)
         )

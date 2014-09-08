@@ -130,6 +130,7 @@ def main(options=None):
             T0,T1=TimesInt[i],TimesInt[i+1]
             PMachine.MS.ReadData(t0=T0,t1=T1)
             print ModColor.Str(" Substract sky model in [%-.2f->%-.2f h]"%(T0,T1),Bold=False)
+            PMachine.SM.SourceCat=PMachine.SM.SourceCat[PMachine.SM.SourceCat.kill==1]
             Vis=PMachine.predict(Return=True)
             MS.data-=Vis
         else:
