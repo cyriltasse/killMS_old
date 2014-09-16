@@ -1,8 +1,0 @@
-import PyQt4
-import sys
-
-def start():
-    if not("app" in PyQt4.__dict__.keys()):
-        PyQt4.app=PyQt4.QtGui.QApplication(sys.argv)
-    
-    return PyQt4.app
