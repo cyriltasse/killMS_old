@@ -9,7 +9,7 @@ import multiprocessing
 import scipy.optimize
 import timeit
 from progressbar import ProgressBar
-from MakeTOP import ClassMakeTOP
+from MakeTOP_C import ClassMakeTOP
 from ClassModMatOp import ClassModMatOp
 import ClassTimeIt
 import ModColor

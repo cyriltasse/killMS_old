@@ -2,12 +2,12 @@ import sys
 import pylab
 import numpy as np
 import numpy.linalg as linalg
-import scipy.fftpack as FFT
+
 import time as time_mod
 import os
 import scipy.optimize
 import timeit
-import numexpr as ne
+
 
         
 class ClassMakeTOP():

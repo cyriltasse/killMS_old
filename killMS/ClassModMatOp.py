@@ -273,26 +273,26 @@ class ClassModMatOp():
             dotAHvec[iblock:iblock+NrowBlock]=np.dot(subMat,vec[jblock:jblock+NDir])
         return dotAHvec
     
-    def putAbig(self,Ain,Ntimes):
-        Aret=np.zeros((NSPWChan*Ntimes*na*na,NDir*na),dtype=np.complex)
-        NrowBlock=Ntimes*NSPWChan*na
-        for i in range(na):
-            icoord=i*Ntimes*NSPWChan*na
-            jcoord=i*NDir
-            Aret[icoord:icoord+NrowBlock,jcoord:jcoord+NDir]=Ain[0:NrowBlock,jcoord:jcoord+NDir]
-        return Aret
+    # def putAbig(self,Ain,Ntimes):
+    #     Aret=np.zeros((NSPWChan*Ntimes*na*na,NDir*na),dtype=np.complex)
+    #     NrowBlock=Ntimes*NSPWChan*na
+    #     for i in range(na):
+    #         icoord=i*Ntimes*NSPWChan*na
+    #         jcoord=i*NDir
+    #         Aret[icoord:icoord+NrowBlock,jcoord:jcoord+NDir]=Ain[0:NrowBlock,jcoord:jcoord+NDir]
+    #     return Aret
     
-    def putAHAbig(self,Ain,Ntimes):
-        na=self.na
-        NDir=self.NDir
-        NSPWChan=self.NSPWChan
-        Aret=np.zeros((NDir*na,NDir*na),dtype=np.complex)
-        NrowBlock=NDir
-        for i in range(na):
-            icoord=i*NDir
-            jcoord=i*NDir
-            Aret[icoord:icoord+NrowBlock,jcoord:jcoord+NrowBlock]=Ain[0:NrowBlock,jcoord:jcoord+NrowBlock]
-        return Aret
+    # def putAHAbig(self,Ain,Ntimes):
+    #     na=self.na
+    #     NDir=self.NDir
+    #     NSPWChan=self.NSPWChan
+    #     Aret=np.zeros((NDir*na,NDir*na),dtype=np.complex)
+    #     NrowBlock=NDir
+    #     for i in range(na):
+    #         icoord=i*NDir
+    #         jcoord=i*NDir
+    #         Aret[icoord:icoord+NrowBlock,jcoord:jcoord+NrowBlock]=Ain[0:NrowBlock,jcoord:jcoord+NrowBlock]
+    #     return Aret
     
     def dotDiagMDiagH(self,diag0,Mat,diag1):
         #diag0 and diag1 and diagonal matrices given as vectors
@@ -306,44 +306,44 @@ class ClassModMatOp():
         return Mat
     
         
-    def dotAPAh(self,A,P,Ntimes):
-        dotAPAh=np.zeros((NSPWChan*Ntimes*na*na,NSPWChan*Ntimes*na*na),dtype=np.complex)
-        NrowBlock=Ntimes*NSPWChan*na
-        BlockSizeOut=Ntimes*NSPWChan*na
-        for i in range(na):
-            for j in range(na):
-                iblockP=i*NDir
-                jblockP=j*NDir
-                jblockA1=j*NDir
-                jblockA0=i*NDir
-                iblockOut=i*BlockSizeOut
-                jblockOut=j*BlockSizeOut
-                subMat0=A[0:NrowBlock,jblockA0:jblockA0+NDir]
-                subMat1=A[0:NrowBlock,jblockA1:jblockA1+NDir]
-                Psel=P[iblockP:iblockP+NDir,jblockP:jblockP+NDir]
-                dotAPAh[iblockOut:iblockOut+BlockSizeOut,jblockOut:jblockOut+BlockSizeOut]=np.dot(np.dot(subMat0,Psel),subMat1.T.conj())
-        # ind=np.where(dotAPAh==0.)
-        # rr=(np.random.randn(dotAPAh.shape[0],dotAPAh.shape[0])+1j*np.random.randn(dotAPAh.shape[0],dotAPAh.shape[0]))*1.e-6
-        # dotAPAh[ind]=rr[ind]
-        for i in range(dotAPAh.shape[0]):
-            if dotAPAh[i,i]==0.:
-                dotAPAh[i,i]=np.random.rand(1)[0]*1.e-6
-        return dotAPAh
+    # def dotAPAh(self,A,P,Ntimes):
+    #     dotAPAh=np.zeros((NSPWChan*Ntimes*na*na,NSPWChan*Ntimes*na*na),dtype=np.complex)
+    #     NrowBlock=Ntimes*NSPWChan*na
+    #     BlockSizeOut=Ntimes*NSPWChan*na
+    #     for i in range(na):
+    #         for j in range(na):
+    #             iblockP=i*NDir
+    #             jblockP=j*NDir
+    #             jblockA1=j*NDir
+    #             jblockA0=i*NDir
+    #             iblockOut=i*BlockSizeOut
+    #             jblockOut=j*BlockSizeOut
+    #             subMat0=A[0:NrowBlock,jblockA0:jblockA0+NDir]
+    #             subMat1=A[0:NrowBlock,jblockA1:jblockA1+NDir]
+    #             Psel=P[iblockP:iblockP+NDir,jblockP:jblockP+NDir]
+    #             dotAPAh[iblockOut:iblockOut+BlockSizeOut,jblockOut:jblockOut+BlockSizeOut]=np.dot(np.dot(subMat0,Psel),subMat1.T.conj())
+    #     # ind=np.where(dotAPAh==0.)
+    #     # rr=(np.random.randn(dotAPAh.shape[0],dotAPAh.shape[0])+1j*np.random.randn(dotAPAh.shape[0],dotAPAh.shape[0]))*1.e-6
+    #     # dotAPAh[ind]=rr[ind]
+    #     for i in range(dotAPAh.shape[0]):
+    #         if dotAPAh[i,i]==0.:
+    #             dotAPAh[i,i]=np.random.rand(1)[0]*1.e-6
+    #     return dotAPAh
     
-    def dotAhMat(self,A,Mat,Ntimes):
-        dotAhMat=np.zeros((na*NDir,NSPWChan*Ntimes*na*na),dtype=np.complex)
-        NrowBlock=Ntimes*NSPWChan*na
-        BlockSizeOut=Ntimes*NSPWChan
-        for i in range(na):
-            jblockA=i*NDir
-            subMat0=A[0:NrowBlock,jblockA:jblockA+NDir]
+    # def dotAhMat(self,A,Mat,Ntimes):
+    #     dotAhMat=np.zeros((na*NDir,NSPWChan*Ntimes*na*na),dtype=np.complex)
+    #     NrowBlock=Ntimes*NSPWChan*na
+    #     BlockSizeOut=Ntimes*NSPWChan
+    #     for i in range(na):
+    #         jblockA=i*NDir
+    #         subMat0=A[0:NrowBlock,jblockA:jblockA+NDir]
     
-            iblockMat=i*Ntimes*NSPWChan*na
-            MatSel=Mat[iblockMat:iblockMat+NrowBlock,:]
-            iblockOut=i*NDir
-            #print i, iblockOut,iblockOut+NDir,iblockMat,iblockMat+NrowBlock
-            dotAhMat[iblockOut:iblockOut+NDir,:]=np.dot(subMat0.T.conj(),MatSel)
-        return dotAhMat
+    #         iblockMat=i*Ntimes*NSPWChan*na
+    #         MatSel=Mat[iblockMat:iblockMat+NrowBlock,:]
+    #         iblockOut=i*NDir
+    #         #print i, iblockOut,iblockOut+NDir,iblockMat,iblockMat+NrowBlock
+    #         dotAhMat[iblockOut:iblockOut+NDir,:]=np.dot(subMat0.T.conj(),MatSel)
+    #     return dotAhMat
     
     # def dotMatA(Mat,A,Ntimes):
     #     dotAhMat=np.zeros((na*NDir,na*NDir),dtype=np.complex)
