@@ -3,7 +3,9 @@
 import optparse
 import sys
 import pyrap
-
+import logo
+import MyPickle
+import ClassSM
 sys.path=[name for name in sys.path if not(("pyrap" in name)&("/usr/local/lib/" in name))]
 
 #import numpy
@@ -31,6 +33,7 @@ import ClassSM
 from ClassPredict import ClassPredict
 import PseudoKill
 import ClassTimeIt
+from progressbar import ProgressBar
 
 def read_options():
     desc="""killMS Questions and suggestions: cyril.tasse@obspm.fr"""
@@ -119,9 +122,8 @@ def main(options=None):
     if not(MS.DTh in TimesInt): TimesInt.append(MS.DTh)
     
 
-    import pylab
-    pylab.ion()
-    import MyPickle
+    # import pylab
+    # pylab.ion()
     SolsAll=[]
     for i in range(len(TimesInt)-1):
         if SubOnly:
@@ -195,7 +197,6 @@ if __name__=="__main__":
     f = open("last_killMS.obj",'rb')
     options = pickle.load(f)
     if options.DoBar=="0":
-        from progressbar import ProgressBar
         ProgressBar.silent=1
     else:
         os.system('clear')
@@ -203,6 +204,5 @@ if __name__=="__main__":
     if options.Restore=="1":
         Restore(options)
     else:
-        import logo
         logo.print_logo()
         main(options=options)

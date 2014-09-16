@@ -4,6 +4,8 @@ import rad2hmsdms
 import ModColor
 import ModTigger
 import ModSMFromNp
+import ModCluster
+import ModClusterRadial
 
 
 class ClassSM():
@@ -199,7 +201,6 @@ class ClassSM():
         x,y=self.radec2lm_scalar(x,y)
         
         if self.ClusterMethod==2:
-            import ModCluster
             self.SourceCat.Cluster=0
             DictNode=ModCluster.tessel(x,y,s,nk,DoPlot=DoPlot)
             iK=0
@@ -212,7 +213,6 @@ class ClassSM():
 
         if self.ClusterMethod==3:
             self.SourceCat.Cluster=0
-            import ModClusterRadial
             DictNode=ModClusterRadial.RadialCluster(x,y,s,nk,DoPlot=DoPlot)
             iK=0
             self.NDir=len(DictNode.keys())
@@ -318,7 +318,7 @@ class ClassSM():
             (KK[keys[ind]]).append(i)
 
         if DoPlot:
-            import ModCluster
+            #import ModCluster
             pylab.clf()
             Dx=Dy=0.01
             extent=(np.min(x)-Dx,np.max(x)+Dx,np.min(y)-Dy,np.max(y)+Dy)

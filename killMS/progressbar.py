@@ -10,6 +10,7 @@ Usage:
 import sys
 import time as timemod
 import ModColor
+import terminal
 
 
 class ProgressBar(object):
@@ -30,7 +31,6 @@ class ProgressBar(object):
         
         if self.silent==1: return
 
-        import terminal
         if color:
             self.color = getattr(terminal, color.upper())
         else:

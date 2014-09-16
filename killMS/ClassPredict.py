@@ -7,6 +7,7 @@ import numexpr as ne
 #import ModNumExpr
 from progressbar import ProgressBar
 import multiprocessing
+import ClassPredict2
 
 class ClassPredict():
     def __init__(self,MS,modelName,Cluster="",NCluster=0,NCPU=None,freqs=None):
@@ -128,7 +129,6 @@ class ClassPredict():
             f0b=float(2*pi/wave[spw])
 
             if TypeSources[dd]==1:
-                import ClassPredict2
                 ang=Gangle[dd]
                 SigMaj=Gmaj[dd]
                 SigMin=Gmin[dd]
