@@ -81,7 +81,7 @@ class ClassSM():
 
         if SelSource:
             self.SelectSourceMouse()
-        print self.SourceCat.Select
+        # print self.SourceCat.Select
 
         print ModColor.Str(" SkyModel PROPERTIES: ")
         print "   - SkyModel File Name: %s"%ModColor.Str(infile,col="green")

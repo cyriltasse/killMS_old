@@ -128,7 +128,7 @@ class ClassPredict():
             f0b=float(2*pi/wave[spw])
 
             if TypeSources[dd]==1:
-                import ClassPredict2
+                # import ClassPredict2
                 ang=Gangle[dd]
                 SigMaj=Gmaj[dd]
                 SigMin=Gmin[dd]
