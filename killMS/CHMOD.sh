@@ -1,7 +1,8 @@
 
 rm *.c
-rm *.so
-python CompilCython.py build_ext --inplace
+rm *.pyx
+#rm *.so
+#python CompilCython.py build_ext --inplace
 
 #rm *.pyx
 

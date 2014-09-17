@@ -7,6 +7,8 @@ import logo
 
 sys.path=[name for name in sys.path if not(("pyrap" in name)&("/usr/local/lib/" in name))]
 
+# test
+
 #import numpy
 #print numpy.__file__
 #import pyrap
