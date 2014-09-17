@@ -45,7 +45,12 @@ class ClassMakeTOP():
 
                 ff=np.logical_and(flag[spw][row0:row1,0],flag[spw][row0:row1,3])
 
-                vv=self.PM.PredictDirSPW(self.SM.Dirs[i],spw,uvw=uvw,flags=ff)
+                U=uvw[:,0].astype(float).flatten().copy()
+                V=uvw[:,1].astype(float).flatten().copy()
+                W=uvw[:,2].astype(float).flatten().copy()
+		
+
+                vv=self.PM.PredictDirSPW(self.SM.Dirs[i],spw,U,V,W,flags=ff)
                 #vv=self.PM.PredictDirSPW(i,spw,uvw=uvw,flags=ff)
                 #vv[(ff==True)|(PM.)]=0.
                 noise=(np.random.randn(vv.shape[0])+1j*np.random.randn(vv.shape[0]))*1e-6
@@ -102,13 +107,19 @@ class ClassMakeTOP():
             AmatList.append(P.copy())
             
         for i in range(self.SM.NDir):
+            
+            #print np.__file__
             #print "idir=%i, 1./sqrt(weigth)=%f"%(i,weigth)
             for spw in range(NSPWChan):
                 vv.fill(0.)
 
                 ff=np.logical_and(flag[spw][row0:row1,0],flag[spw][row0:row1,3])
 
-                vv=self.PM.PredictDirSPW(self.SM.Dirs[i],spw,uvw=uvw,flags=ff)
+                U=uvw[:,0].astype(float).flatten().copy()
+                V=uvw[:,1].astype(float).flatten().copy()
+                W=uvw[:,2].astype(float).flatten().copy()
+
+                vv=self.PM.PredictDirSPW(self.SM.Dirs[i],spw,U,V,W,flags=ff)
                 #vv=self.PM.PredictDirSPW(i,spw,uvw=uvw,flags=ff)
                 #vv[(ff==True)|(PM.)]=0.
                 noise=(np.random.randn(vv.shape[0])+1j*np.random.randn(vv.shape[0]))*1e-6

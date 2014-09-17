@@ -76,7 +76,7 @@ class ClassPredict():
             dirindex=0
             for i in Dirs:
                 #print i,"/",self.NDir
-                ColOutDir=self.PredictDirSPW(i,spw,U=U,V=V,W=W,pBAR=pBAR)
+                ColOutDir=self.PredictDirSPW(i,spw,U,V,W,pBAR=pBAR)
                 if Sols!=None:
                     gg=Sols.GiveRawSols(TVec,A0Vec,A1Vec,idir=dirindex)
                     ColOut=ne.evaluate("ColOut+gg*ColOutDir")
@@ -91,7 +91,7 @@ class ClassPredict():
         self.pBAR.reset()
         if Return: return DataOut
 
-    def PredictDirSPW(self,idir,spw,flags=None,uvw=None,U=None,V=None,W=None,pBAR=False):
+    def PredictDirSPW(self,idir,spw,U,V,W,flags=None,uvw=None,pBAR=False):
 
         SourceCat=self.SM.SourceCat
 
@@ -99,10 +99,10 @@ class ClassPredict():
         pi=float(np.pi)
         wave=self.wave#[0]
         f0=complex(2*pi*1j/wave[spw])
-        if uvw!=None:
-            U=uvw[:,0].astype(float).flatten().copy()
-            V=uvw[:,1].astype(float).flatten().copy()
-            W=uvw[:,2].astype(float).flatten().copy()
+        # if uvw!=None:
+        #     U=uvw[:,0].astype(float).flatten().copy()
+        #     V=uvw[:,1].astype(float).flatten().copy()
+        #     W=uvw[:,2].astype(float).flatten().copy()
         ColOut=np.zeros(U.shape,dtype=complex)
         f0=complex(2*pi*1j/wave[spw])
 

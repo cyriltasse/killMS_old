@@ -119,7 +119,7 @@ def PseudoKill(PM,delta_time=30,niterin=40,NCPU=6,T0=0,T1=-1,PrintProps=0):
 
 
 def estimate_xi_pseudo(Row0,Row1,xi=None):
-    import pylab
+    #import pylab
     
     timer=ClassTimeIt.ClassTimeIt()
     timer.reinit()
@@ -436,123 +436,5 @@ class WorkerSolveStef(multiprocessing.Process):
 
 
 ##### Pierce part
-
-
-#################################################
-####            TOOL
-
-
-def KalmanStep(Row0,Row1,xi=None):
-    
-    timer=ClassTimeIt.ClassTimeIt()
-    timer.reinit()
-    Ntimes=(Row1-Row0)/TOP.MS.nbl
-    na=TOP.MS.na
-    NDir=TOP.SM.NDir
-    NSPWChan=TOP.MS.NSPWChan
-
-
-    
-
-    x0=np.ones((na*NDir,),dtype=np.complex)#give_x0(time_value)
-    
-        
-    x0.fill(1.)
-    if xi==None:
-        xi=x0.copy()
-        
-    
-    xbef=np.zeros((niter,xi.shape[0]),dtype=np.complex)
-
-    VecWeigth=1./np.sqrt(TOP.weigths)
-    P=[]
-    for i in range(na):
-        P.append(np.diag(TOP.weigths[i*NDir:(i+1)*NDir]))
-
-    A0matList,AmatList=TOP.make_A0newList(Row0,Row1)
-    b=TOP.give_b_Pnew(Row0,Row1)
-    Amat=TOP.give_AnewList(xi,A0matList,AmatList,Ntimes)
-    resid=b-ModMatOp.dotAvecList(Amat,xi.conj(),Ntimes)
-
-    #get residual
-
-    Block=NSPWChan*Ntimes*na
-    residVec=[resid[i*Block:(i+1)*Block].reshape(Block,1) for i in range(na)]
-
-    xiVec=[resid[i*NDir:(i+1)*NDir].reshape(NDir,1) for i in range(na)]
-
-
-    #Get S, Sinv
-    S=ModMatOp.GiveS(P,Amat)
-    Sinv=ModMatOp.InvMatList(S)
-
-    for i in range(na):
-        pylab.clf()
-        pylab.subplot(2,1,1)
-        pylab.imshow(np.abs(S[i]))
-        pylab.colorbar()
-        pylab.subplot(2,1,2)
-        pylab.imshow(np.abs(Sinv[i]))
-        pylab.colorbar()
-        pylab.draw()
-
-    # Get Kalman gain
-    K0=ModMatOp.ProdList(Amat,Sinv,Ah=True)
-    K =K0#ModMatOp.ProdList(P,K0)
-
-    # get new estimate
-    dx=ModMatOp.ProdList(K,residVec)
-    xi1=np.zeros((na*NDir,),complex)
-    for i in range(na):
-        xi1[i*NDir:(i+1)*NDir]=xi[i*NDir:(i+1)*NDir]+dx[i].flatten()
-        pylab.clf()
-        pylab.plot(dx[i].flatten())
-        pylab.draw()
-
-    K_A=ModMatOp.ProdList(K,Amat)
-    K_A=ModMatOp.ListToArray(K_A)
-    I=np.diag(np.ones((na*NDir,),float))
-    P=ModMatOp.ListToArray(P)
-    P=np.dot((I-K_A),P)
-    print np.diag(P)
-    #TOP.weigths=np.diag(P)
-    xiout=[]
-    for idir in range(NDir):
-        xiout.append(xi1[idir::NDir])
-    
-
-    xi=xi1
-
-    xip=xi.copy()
-    x0p=x0.copy()
-
-    for ii in range(NDir):
-        for ant in range(na):
-            x0p[ii+ant*NDir]=x0p[ii+ant*NDir]*x0p[ii].conj()/np.abs(x0p[ii])
-            xip[ii+ant*NDir]=xip[ii+ant*NDir]*xip[ii].conj()/np.abs(xip[ii])
-
-    pylab.figure(0)
-    pylab.clf()
-    pylab.subplot(2,1,1)
-    pylab.plot(np.abs(x0p),color="black")
-    pylab.plot(np.abs(xip),color="blue")
-    #pylab.ylim(0.,5.)
-    x0p,xip=x0.copy(),xi.copy()
-    for ii in range(NDir):
-        x0p[ii::NDir]*=np.conj(x0p[ii])
-        xip[ii::NDir]*=np.conj(xip[ii])
-    pylab.subplot(2,1,2)
-    pylab.plot(np.angle(x0p),color="black")
-    pylab.plot(np.angle(xip),color="blue")
-    pylab.plot(np.angle(xip)-np.angle(x0p),color="black",ls="",marker=".")
-    pylab.draw()
-    pylab.show()
-
-
-    
-
-
-
-    return xiout,xi1
 
 
