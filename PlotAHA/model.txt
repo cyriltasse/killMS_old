@@ -1,0 +1,9 @@
+# (Name, Type, Ra, Dec, I, Q, U, V, ReferenceFrequency, SpectralIndex) = format
+# The above line defines the field order and is required.
+
+POINT000,  POINT,  14:32:06.000, +34.16.48.000, 1.0, 0.0, 0.0, 0.0, 60.e6, [0.0]
+POINT001,  POINT,  14:32:06.000, +36.16.48.000, 1.0, 0.0, 0.0, 0.0, 60.e6, [0.0]
+POINT002,  POINT,  14:32:06.000, +32.16.48.000, 1.0, 0.0, 0.0, 0.0, 60.e6, [0.0]
+POINT003,  POINT,  14:24:06.000, +34.16.48.000, 1.0, 0.0, 0.0, 0.0, 60.e6, [0.0]
+POINT004,  POINT,  14:40:06.000, +34.16.48.000, 1.0, 0.0, 0.0, 0.0, 60.e6, [0.0]
+

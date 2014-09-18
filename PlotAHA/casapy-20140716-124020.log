@@ -1,0 +1,60 @@
+2014-07-16 12:40:24	INFO	casa::::casa	---
+2014-07-16 12:40:24	INFO	casa::::casa	CASA Version 4.1.0 (release r24668)
+2014-07-16 12:40:24	INFO	casa::::casa	  Tagged on: Fri, 24 May 2013
+2014-07-16 12:41:25	INFO	clean::::casa	
+2014-07-16 12:41:25	INFO	clean::::casa+	##########################################
+2014-07-16 12:41:25	INFO	clean::::casa+	##### Begin Task: clean              #####
+2014-07-16 12:41:25	INFO	clean::::casa	clean(vis="Simul.MS",imagename="test",outlierfile="",field="",
+2014-07-16 12:41:25	INFO	clean::::casa+	        spw="",selectdata=False,timerange="",uvrange="",antenna="",
+2014-07-16 12:41:25	INFO	clean::::casa+	        scan="",observation="",mode="mfs",gridmode="",wprojplanes=1,
+2014-07-16 12:41:25	INFO	clean::::casa+	        facets=1,cfcache="cfcache.dir",painc=360.0,aterm=True,psterm=False,
+2014-07-16 12:41:25	INFO	clean::::casa+	        mterm=True,wbawp=False,conjbeams=True,epjtable="",interpolation="linear",
+2014-07-16 12:41:25	INFO	clean::::casa+	        niter=0,gain=0.1,threshold="0.0mJy",psfmode="clark",imagermode="csclean",
+2014-07-16 12:41:25	INFO	clean::::casa+	        ftmachine="mosaic",mosweight=False,scaletype="SAULT",multiscale=[],negcomponent=-1,
+2014-07-16 12:41:25	INFO	clean::::casa+	        smallscalebias=0.6,interactive=False,mask=[],nchan=-1,start=0,
+2014-07-16 12:41:25	INFO	clean::::casa+	        width=1,outframe="",veltype="radio",imsize=[1024, 1024],cell=['20arcsec'],
+2014-07-16 12:41:25	INFO	clean::::casa+	        phasecenter="",restfreq="",stokes="I",weighting="natural",robust=0.0,
+2014-07-16 12:41:25	INFO	clean::::casa+	        uvtaper=False,outertaper=[''],innertaper=['1.0'],modelimage="",restoringbeam=[''],
+2014-07-16 12:41:25	INFO	clean::::casa+	        pbcor=False,minpb=0.2,usescratch=False,noise="1.0Jy",npixels=0,
+2014-07-16 12:41:25	INFO	clean::::casa+	        npercycle=100,cyclefactor=1.5,cyclespeedup=-1,nterms=1,reffreq="",
+2014-07-16 12:41:25	INFO	clean::::casa+	        chaniter=False,flatnoise=True,allowchunk=False)
+2014-07-16 12:41:25	INFO	clean::::casa	nchan=-1 start=0 width=1
+2014-07-16 12:41:25	INFO	clean::::casa	Use default channelization for clean
+2014-07-16 12:41:25	INFO	clean::::casa	clean image: test
+2014-07-16 12:41:25	INFO	Imager::open() 	Opening MeasurementSet /media/tasse/data/killMS.git/PlotAHA/Simul.MS
+2014-07-16 12:41:26	INFO	clean::::casa	FTMachine used is  ft 
+2014-07-16 12:41:26	INFO	imager::data selection	Performing selection on MeasurementSet : /media/tasse/data/killMS.git/PlotAHA/Simul.MS
+2014-07-16 12:41:26	INFO	imager::data selection	Selecting on spectral windows expression : *
+2014-07-16 12:41:26	INFO	imager::data selection	Selected all 52200 rows
+2014-07-16 12:41:26	INFO	imager::data selection	Selected: [1 chans in spw 0]
+2014-07-16 12:41:26	INFO	imager::defineimage()	Defining image properties:nx=1024 ny=1024 cellx='20arcsec' celly='20arcsec' stokes=I' mode=MFS nchan=-1 start=0 step=1 spwids=[-1] fieldid=0 facets=1 frame=5 distance='0'
+2014-07-16 12:41:26	INFO	imager::defineimage()	 phaseCenter='field-0 ' mStart='Radialvelocity: 0' qStep='0 '' mFreqStart='Frequency: 0
+2014-07-16 12:41:26	WARN	Imager::imagecoordinates() (file /var/rpmbuild/BUILD/casapy410/casapy410-41.0.24668/code/synthesis/MeasurementEquations/Imager2.cc, line 241)	Did not get the position of LOFAR from data repository
+2014-07-16 12:41:26	WARN	Imager::imagecoordinates() (file /var/rpmbuild/BUILD/casapy410/casapy410-41.0.24668/code/synthesis/MeasurementEquations/Imager2.cc, line 241)	Please contact CASA to add it to the repository.
+2014-07-16 12:41:26	WARN	Imager::imagecoordinates() (file /var/rpmbuild/BUILD/casapy410/casapy410-41.0.24668/code/synthesis/MeasurementEquations/Imager2.cc, line 241)	Frequency conversion will not work 
+2014-07-16 12:41:26	INFO	Imager::setvp() 	Setting voltage pattern parameters
+2014-07-16 12:41:26	INFO	Imager::setvp() 	Sky position tolerance is 180 degrees
+2014-07-16 12:41:26	INFO	Imager::setvp() 	Using system default voltage patterns for each telescope
+2014-07-16 12:41:26	INFO	imager::makeimage() 	Calculating image (without full skyequation)
+2014-07-16 12:41:26	WARN	Imager::imagecoordinates() (file /var/rpmbuild/BUILD/casapy410/casapy410-41.0.24668/code/synthesis/MeasurementEquations/Imager2.cc, line 241)	Did not get the position of LOFAR from data repository
+2014-07-16 12:41:26	WARN	Imager::imagecoordinates() (file /var/rpmbuild/BUILD/casapy410/casapy410-41.0.24668/code/synthesis/MeasurementEquations/Imager2.cc, line 241)	Please contact CASA to add it to the repository.
+2014-07-16 12:41:26	WARN	Imager::imagecoordinates() (file /var/rpmbuild/BUILD/casapy410/casapy410-41.0.24668/code/synthesis/MeasurementEquations/Imager2.cc, line 241)	Frequency conversion will not work 
+2014-07-16 12:41:26	WARN	Imager::makePBImage() (file /var/rpmbuild/BUILD/casapy410/casapy410-41.0.24668/code/synthesis/MeasurementEquations/Imager2.cc, line 4003)	Telescope LOFAR is not known
+2014-07-16 12:41:26	WARN	Imager::makePBImage() (file /var/rpmbuild/BUILD/casapy410/casapy410-41.0.24668/code/synthesis/MeasurementEquations/Imager2.cc, line 4003)+	 Not making the PB  image
+2014-07-16 12:41:26	INFO	Imager::setvp() 	Setting voltage pattern parameters
+2014-07-16 12:41:26	INFO	imager::weight()	Weighting MS: Imaging weights will be changed
+2014-07-16 12:41:26	INFO	imager::weight()	Natural weighting
+2014-07-16 12:41:26	INFO	clean::::casa	Used mask(s) : [''] to create mask image(s) : test.mask
+2014-07-16 12:41:26	INFO	imager::setoptions() 	Setting processing options
+2014-07-16 12:41:26	INFO	clean::::casa	No model found. Making empty initial model : test.model
+2014-07-16 12:41:26	WARN	Imager::imagecoordinates() (file /var/rpmbuild/BUILD/casapy410/casapy410-41.0.24668/code/synthesis/MeasurementEquations/Imager2.cc, line 241)	Did not get the position of LOFAR from data repository
+2014-07-16 12:41:26	WARN	Imager::imagecoordinates() (file /var/rpmbuild/BUILD/casapy410/casapy410-41.0.24668/code/synthesis/MeasurementEquations/Imager2.cc, line 241)	Please contact CASA to add it to the repository.
+2014-07-16 12:41:26	WARN	Imager::imagecoordinates() (file /var/rpmbuild/BUILD/casapy410/casapy410-41.0.24668/code/synthesis/MeasurementEquations/Imager2.cc, line 241)	Frequency conversion will not work 
+2014-07-16 12:41:26	INFO	Imager::imagecoordinates() 	Center frequency = 0.1625 GHz, synthesized continuum bandwidth = 0.05 GHz
+2014-07-16 12:41:26	INFO	imager::clean()	Using multifield Clark clean
+2014-07-16 12:41:26	INFO	imager::createFTMachine() 	Multiple fields or facets: transforms will be padded by a factor 1.2
+2014-07-16 12:41:26	INFO	imager::createFTMachine() 	Performing interferometric gridding...
+2014-07-16 12:41:26	INFO	imager::clean()	Clean gain = 0.1, Niter = 0, Threshold = 0 mJy
+2014-07-16 12:41:26	INFO	imager::clean()	Starting deconvolution
+2014-07-16 12:41:30	INFO	CubeSkyEquation::makeSimplePSF	Maximum of approximate PSF for field 0 = 0 : renormalizing to unity
+2014-07-16 12:41:30	SEVERE	clean::::casa	An error occurred running task clean.

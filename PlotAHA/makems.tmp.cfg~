@@ -1,0 +1,14 @@
+WriteAutoCorr = T
+NFrequencies = 1
+StepTime = 10.00
+StartFreq = 150.0e6
+VDSPath = .
+WriteImagerColumns = T
+AntennaTableName = ANTENNA
+Declination = 34.16.48.000
+NBands = 1
+RightAscension = 14:32:06.000
+StartTime = 2011-12-03/03:00:10.010
+StepFreq = 25000000.0
+MSName = /media/6B5E-87D0/killMS.git/PlotAHA/Simul.MS
+NTimes = 120
