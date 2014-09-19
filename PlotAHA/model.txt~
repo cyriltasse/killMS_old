@@ -1,5 +1,0 @@
-# (Name, Type, Ra, Dec, I, Q, U, V, ReferenceFrequency, SpectralIndex) = format
-# The above line defines the field order and is required.
-
-POINT000,  POINT,  14:22:05.335453,  +37.46.08.159786, 100.0, 0.0, 0.0, 0.0, 60.e6, [0.0]
-Center, POINT, 14:32:06.00, 34.16.48.00, 0.0, 0.0, 0.0, 0.0,  60.e6, [0.0]
