@@ -16,7 +16,8 @@ import ModColor
 #import ModKal
 from ClassSols import ClassSols
 from pyrap.tables import table
-    
+#import pylab
+   
     
 def PseudoKill(PM,delta_time=30,niterin=40,NCPU=6,T0=0,T1=-1,PrintProps=0):
     #import pylab
@@ -149,54 +150,17 @@ def estimate_xi_pseudo(Row0,Row1,xi=None):
     if xi==None:
         xi=x0.copy()
         
-    xi=np.random.randn(na*NDir)+1j*np.random.randn(na*NDir)
-     
+    x0=np.random.randn(na*NDir)+1j*np.random.randn(na*NDir)
     
-    # # # # x0=np.random.randn(na*NDir)+1j*np.random.randn(na*NDir) #give_x0(time_value)
-    # # # # Amat=TOP.give_Anew(x0,A0mat,Amat,Ntimes)
-    # # # # # timer.timeit(" Amat")
-    # # # # predict0=ModMatOp.dotAvec(Amat,x0.conj(),Ntimes)#np.dot(A,xi.conj())
-    # # # # # timer.timeit(" dotAvec")
-    # # # # b=predict0
-    # # # # xi=x0.copy()
-    # # # # # # indnull=np.abs(b)<1e-4*np.max(np.abs(b))
-    # # # # # # b[indnull]=0.
     
-    # # #Q.fill(0.)
-    # # #  for test!!!!
-    # x0.fill(1.)
-    # #x0=np.random.randn(na*NDir)+1j*np.random.randn(na*NDir)
-    # #Amat=TOP.give_Anew(x0,A0mat,Amat,Ntimes)
     # AmatList=TOP.give_AnewList(x0,A0matList,AmatList,Ntimes)
-    # #predict0=ModMatOp.dotAvec(Amat,x0.conj(),Ntimes)#np.dot(A,xi.conj())
     # predict0List=ModMatOp.dotAvecList(AmatList,x0.conj(),Ntimes)#np.dot(A,xi.conj())
-    # #b=predict0
-    # pylab.figure(3)
-    # pylab.clf()
-    # pylab.subplot(2,1,1)
-    # pylab.plot(np.real(b),color="black")
-    # #pylab.plot(np.real(predict0),color="black")
-    # pylab.plot(np.real(predict0List),color="green")
-    # #pylab.plot(np.real(predict0-b),color="red")
-    # pylab.plot(np.real(b-predict0List),color="red")
-    # #pylab.ylim(np.min(np.abs(b))-10.,np.max(np.abs(b)))
-    # #pylab.draw()
-    # #pylab.show()
-    # # pylab.subplot(2,1,2)
-    # # pylab.plot(np.angle(b/predict0),color="black")
-    # # #pylab.plot(np.angle(),color="green")
-    # # pylab.ylim(-np.pi,np.pi)
-    # pylab.draw()
-    # pylab.show()
-    # stop
-    # # #show_mat2(linalg.inv(Q),fig=0)
-    # # xi.fill(1.)
-    # # xi=np.random.randn(na*NDir)+1j*np.random.randn(na*NDir)
-
+    # b=predict0List
+    # b+=np.random.randn(b.size)+1j*np.random.randn(b.size)
+    
     
     xbef=np.zeros((niter,xi.shape[0]),dtype=np.complex)
-    # return A0mat,Amat,b,P,maping_row,maping_chan,xi,x0
-    # stop
+
     T_give_Anew=0
     T_give_AHA_flat=0
     T_invertAHAflat=0
@@ -205,6 +169,7 @@ def estimate_xi_pseudo(Row0,Row1,xi=None):
 
     VecWeigth=1./np.sqrt(TOP.weigths)
     xi.fill(1.)
+    #xi=x0
 
     for i in range(niter):
         # #timer.timeit(" borne")
@@ -221,8 +186,15 @@ def estimate_xi_pseudo(Row0,Row1,xi=None):
         AmatList=TOP.give_AnewList(xi,A0matList,AmatList,Ntimes)
         AHAList=ModMatOp.give_AHA_flatList(AmatList,Ntimes)
         AHAinvList=ModMatOp.invertAHAflatList(AHAList,Ntimes)
-        AHvecList=ModMatOp.dotAHvecList(AmatList,b,Ntimes)
-        xi=VecWeigth*ModMatOp.dotAvecList(AHAinvList,AHvecList,Ntimes).conj()
+
+
+        # AHvecList=ModMatOp.dotAHvecList(AmatList,b,Ntimes)
+        # xi=VecWeigth*ModMatOp.dotAvecList(AHAinvList,AHvecList,Ntimes).conj()
+
+        predict0List=ModMatOp.dotAvecList(AmatList,xi.conj(),Ntimes)#np.dot(A,xi.conj())
+
+        AHvecList=ModMatOp.dotAHvecList(AmatList,b-predict0List,Ntimes)
+        xi+=VecWeigth*ModMatOp.dotAvecList(AHAinvList,AHvecList,Ntimes).conj()
         #timer.timeit(" 22")
         #print 
         #xi*=VecWeigth
@@ -236,10 +208,7 @@ def estimate_xi_pseudo(Row0,Row1,xi=None):
             xi=(xbef[i-1]+xbef[i])/2.
             #print xi
 
-        # # # DDX,DDY=mat_pierce(time_value)
-        # # # Pierce2png(DDX,DDY,xi,itime,"lala",verbose=1)
-        # # # pylab.draw()
-        # # # pylab.show()
+        # #=========================================
         # xip=xi.copy()
         # x0p=x0.copy()
 
@@ -274,13 +243,14 @@ def estimate_xi_pseudo(Row0,Row1,xi=None):
         # pylab.figure(3)
         # pylab.clf()
         # pylab.subplot(2,1,1)
-        # pylab.plot(b.real,color="black")
-        # pylab.plot(predict.real,color="green")
-        # pylab.plot(b.real-predict.real,color="red")
+        # n=1000
+        # pylab.plot(b.real[::n],color="black")
+        # pylab.plot(predict.real[::n],color="green")
+        # pylab.plot(b.real[::n]-predict.real[::n],color="red")
         # pylab.subplot(2,1,2)
-        # pylab.plot(b.imag,color="black")
-        # pylab.plot(predict.imag,color="green")
-        # pylab.plot(b.imag-predict.imag,color="red")
+        # pylab.plot(b.imag[::n],color="black")
+        # pylab.plot(predict.imag[::n],color="green")
+        # pylab.plot(b.imag[::n]-predict.imag[::n],color="red")
         # pylab.title("iter=%i"%i)
         # pylab.draw()
         # pylab.show()

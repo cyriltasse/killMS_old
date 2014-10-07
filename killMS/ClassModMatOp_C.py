@@ -9,6 +9,14 @@ import scipy.optimize
 import timeit                                      
 import ClassTimeIt
 
+def invSVD(A):
+    u,s,v=np.linalg.svd(A+np.random.randn(*A.shape)*(1e-6*A.max()))
+    #s[s<0.]=1.e-6
+    s[s<1.e-6*s.max()]=1.e-6*s.max()
+    ssq=np.diag(1./s)
+    Asq=np.dot(np.dot(v.T,ssq),u.T)
+    return Asq
+
 class ClassModMatOp():
     def __init__(self,PM):
         self.na=PM.MS.na
@@ -25,7 +33,8 @@ class ClassModMatOp():
             iblock=0
             jblock=i*NDir
             subMat=AHA[iblock:iblock+NrowBlock,jblock:jblock+NDir]
-            AHA[:,jblock:jblock+NDir]=linalg.inv(subMat)
+            #AHA[:,jblock:jblock+NDir]=linalg.inv(subMat)
+            AHA[:,jblock:jblock+NDir]=invSVD(subMat)
         return AHA
         
     def invertAHAflatList(self,AHAList,Ntimes):
