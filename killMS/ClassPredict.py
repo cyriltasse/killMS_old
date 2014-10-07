@@ -86,7 +86,7 @@ class ClassPredict():
             #ColOut*=2.
             DataOut[spw,:,0]+=ColOut
             DataOut[spw,:,3]+=ColOut
-
+        DataOut[self.MS.flag_all]=0
         if SetAsAttribute: self.DataOut=DataOut
         self.pBAR.reset()
         if Return: return DataOut

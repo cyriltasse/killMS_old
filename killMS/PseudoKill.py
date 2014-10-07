@@ -16,7 +16,7 @@ import ModColor
 #import ModKal
 from ClassSols import ClassSols
 from pyrap.tables import table
-#import pylab
+import pylab
    
     
 def PseudoKill(PM,delta_time=30,niterin=40,NCPU=6,T0=0,T1=-1,PrintProps=0):
@@ -150,7 +150,7 @@ def estimate_xi_pseudo(Row0,Row1,xi=None):
     if xi==None:
         xi=x0.copy()
         
-    x0=np.random.randn(na*NDir)+1j*np.random.randn(na*NDir)
+    #x0=np.random.randn(na*NDir)+1j*np.random.randn(na*NDir)
     
     
     # AmatList=TOP.give_AnewList(x0,A0matList,AmatList,Ntimes)
@@ -167,9 +167,10 @@ def estimate_xi_pseudo(Row0,Row1,xi=None):
     T_dotAHvec=0
     T_dotAvec=0
 
-    VecWeigth=1./np.sqrt(TOP.weigths)
+    #VecWeigth=1./np.sqrt(TOP.weigths)
     xi.fill(1.)
-    #xi=x0
+    #xi=1+(np.random.randn(na*NDir)+1j*np.random.randn(na*NDir))
+    
 
     for i in range(niter):
         # #timer.timeit(" borne")
@@ -194,7 +195,7 @@ def estimate_xi_pseudo(Row0,Row1,xi=None):
         predict0List=ModMatOp.dotAvecList(AmatList,xi.conj(),Ntimes)#np.dot(A,xi.conj())
 
         AHvecList=ModMatOp.dotAHvecList(AmatList,b-predict0List,Ntimes)
-        xi+=VecWeigth*ModMatOp.dotAvecList(AHAinvList,AHvecList,Ntimes).conj()
+        xi+=ModMatOp.dotAvecList(AHAinvList,AHvecList,Ntimes).conj()
         #timer.timeit(" 22")
         #print 
         #xi*=VecWeigth
@@ -238,12 +239,16 @@ def estimate_xi_pseudo(Row0,Row1,xi=None):
         # #xi.fill(1)
         # #AmatList=TOP.give_AnewList(xi,A0matList,AmatList,Ntimes)
         # AList=TOP.give_AnewList(xi,A0matList,AmatList,Ntimes)
+        
         # predict=ModMatOp.dotAvecList(AList,xi.conj(),Ntimes)#np.dot(A,xi.conj())
         # #predict=ModMatOp.dotAvec(A,xi.conj(),Ntimes)
         # pylab.figure(3)
         # pylab.clf()
         # pylab.subplot(2,1,1)
-        # n=1000
+        # n=10
+        # # pylab.plot(np.abs(b[::n]),color="black")
+        # # pylab.plot(np.abs(predict[::n]),color="green")
+        # # pylab.plot(np.abs(b[::n]-predict[::n]),color="red")
         # pylab.plot(b.real[::n],color="black")
         # pylab.plot(predict.real[::n],color="green")
         # pylab.plot(b.real[::n]-predict.real[::n],color="red")
@@ -254,7 +259,7 @@ def estimate_xi_pseudo(Row0,Row1,xi=None):
         # pylab.title("iter=%i"%i)
         # pylab.draw()
         # pylab.show()
-        # #stop
+
         # # # A=give_Anew(xi,A0mat,Amat,Ntimes)
         # # # predict=dotAvec(A,xi.conj(),Ntimes)
         # # # pylab.figure(3)

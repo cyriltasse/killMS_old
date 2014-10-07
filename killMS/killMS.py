@@ -161,6 +161,21 @@ def main(options=None):
 
 
             Vis=PMachine.predict(Sols,Return=True)
+
+            # import pylab
+            # res=MS.data-Vis
+            # pylab.clf()
+            # pylab.subplot(2,1,1)
+            # pylab.plot(MS.data[0,:,0].real,color="black")
+            # pylab.plot(Vis[0,:,0].real,color="blue")
+            # pylab.plot(res[0,:,0].real,color="red")
+            # pylab.subplot(2,1,2)
+            # pylab.plot(MS.data[0,:,0].imag,color="black")
+            # pylab.plot(Vis[0,:,0].imag,color="blue")
+            # pylab.plot(res[0,:,0].imag,color="red")
+            # pylab.draw()
+            # pylab.show(False)
+
             MS.data-=Vis
 
 

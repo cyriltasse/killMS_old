@@ -17,7 +17,7 @@ class ClassMakeTOP():
         self.SM=PMachine.SM
         self.SolvePolMode=SolvePolMode
         self.weigths=np.array(self.SM.WeightDir.tolist()*self.MS.na)
-        #self.weigths.fill(1)
+        self.weigths.fill(1)
 
     def make_A0new(self,row0,row1):
         ant0=self.MS.A0[row0:row1]
@@ -68,12 +68,12 @@ class ClassMakeTOP():
                     icoord=spw*Ntimes+a0*NSPWChan*Ntimes
                     jcoord=i+a1*NDir
                     #A0mat[icoord:icoord+Ntimes,jcoord]=vv[bl::nbl]
-                    weight=1./np.sqrt(self.weigths[jcoord])
+                    weight=1.#/np.sqrt(self.weigths[jcoord])
                     A0mat[icoord:icoord+Ntimes,jcoord]=weight*vv[bl::nbl]
                     icoord=spw*Ntimes+a1*NSPWChan*Ntimes
                     jcoord=i+a0*NDir
                     #A0mat[icoord:icoord+Ntimes,jcoord]=vv[bl::nbl].conj()
-                    weight=1./np.sqrt(self.weigths[jcoord])
+                    weight=1.#/np.sqrt(self.weigths[jcoord])
                     A0mat[icoord:icoord+Ntimes,jcoord]=weight*vv[bl::nbl].conj()
         return A0mat,Amat
     
@@ -136,13 +136,13 @@ class ClassMakeTOP():
                     
                     icoord=spw*Ntimes+a0*NSPWChan*Ntimes
                     jcoord=i+a1*NDir
-                    weight=1./np.sqrt(self.weigths[jcoord])
+                    weight=1.#/np.sqrt(self.weigths[jcoord])
                     A0matList[a1][icoord:icoord+Ntimes,i]=weight*vv[bl::nbl]
                     #A0matList[a1][icoord:icoord+Ntimes,i]=vv[bl::nbl]
 
                     icoord=spw*Ntimes+a1*NSPWChan*Ntimes
                     jcoord=i+a0*NDir
-                    weight=1./np.sqrt(self.weigths[jcoord])
+                    weight=1.#/np.sqrt(self.weigths[jcoord])
                     A0matList[a0][icoord:icoord+Ntimes,i]=weight*vv[bl::nbl].conj()
                     #A0matList[a0][icoord:icoord+Ntimes,i]=vv[bl::nbl].conj()
 
