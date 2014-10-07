@@ -55,16 +55,16 @@ def read_options():
     group.add_option('--NCPU',help=' Number of cores to use for the calibration of the Tikhonov output. Default is %default ',default="6")
     group.add_option('--niter',help=' Number of iterations for the solve. Default is %default ',default="20")
     group.add_option('--doSmearing',help='Takes time and frequency smearing if enabled. Default is %default ',default="0")
-    group.add_option('--SolvePolMode',help=' Polarisation mode (I/All). Default is %default)',default="I")
-    group.add_option('--ChanSels',help=' Channel selection. Default is %default)',default="")
-    group.add_option('--BLFlags',help=' Baselines To be flagged. Default is %default)',default="")
-    group.add_option('--Restore',help=' Restore BACKUP in CORRECTED. Default is %default)',default="0")
+    group.add_option('--SolvePolMode',help=' Polarisation mode (I/All). Default is %default',default="I")
+    group.add_option('--ChanSels',help=' Channel selection. Default is %default',default="")
+    group.add_option('--BLFlags',help=' Baselines To be flagged. Default is %default',default="")
+    group.add_option('--Restore',help=' Restore BACKUP in CORRECTED. Default is %default',default="0")
 
-    group.add_option('--TChunk',help=' Time Chunk in hours. Default is %default)',default="15")
-    group.add_option('--SubOnly',help=' Only substract the skymodel. Default is %default)',default="0")
-    group.add_option('--DoBar',help=' Draw progressbar. Default is %default)',default="1")
-    group.add_option('--InCol',help=' Column to work on. Default is %default)',default="CORRECTED_DATA_BACKUP")
-    group.add_option('--ApplyCal',help=' Apply direction averaged gains to residual data. Default is %default)',default="0")
+    group.add_option('--TChunk',help=' Time Chunk in hours. Default is %default',default="15")
+    group.add_option('--SubOnly',help=' Only substract the skymodel. Default is %default',default="0")
+    group.add_option('--DoBar',help=' Draw progressbar. Default is %default',default="1")
+    group.add_option('--InCol',help=' Column to work on. Default is %default',default="CORRECTED_DATA_BACKUP")
+    group.add_option('--ApplyCal',help=' Apply direction averaged gains to residual data. Default is %default',default="0")
     
 
 
