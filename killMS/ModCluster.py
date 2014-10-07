@@ -41,6 +41,8 @@ def PlotTessel(xin,yin,extent=None):
 
     im=CatCell.ToNumNode.reshape(Ncells,Ncells)
     pylab.imshow(im.T[::-1,:],interpolation="nearest",extent=(x0,x1,y0,y1))#,exten)
+    pylab.xlabel("l [radian]")
+    pylab.ylabel("m [radian]")
 
 
 def tessel(xin,yin,sin,NCluster,DoPlot=True):
