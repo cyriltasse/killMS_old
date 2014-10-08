@@ -139,10 +139,6 @@ def estimate_xi_pseudo(Row0,Row1,xi=None):
 
     #AA=A0mat[0::10,:].T.copy()
     A0mat,Amat=TOP.make_A0new(Row0,Row1)
-    #AA=np.dot(A0mat.T.conj(),A0mat)
-
-    #A0mat,Amat=TOP.make_A0new_ReIm(Row0,Row1)
-    #AA_ReIm=np.dot(A0mat.T.conj(),A0mat)
 
     # pylab.subplot(1,2,1)
     # pylab.imshow(AA.real,interpolation="nearest")
@@ -155,24 +151,27 @@ def estimate_xi_pseudo(Row0,Row1,xi=None):
     # pylab.pause(0.1)
     # pylab.show(False)
 
-    # #################
-    # ## Plot AHA
-    # import matplotlib as mpl 
-    # mpl.rcParams['text.latex.preamble'].append(r'\usepackage{bm}')
-    # mpl.rcParams['text.latex.preamble'].append(r'\usepackage{mathbbol}')
-    # mpl.rcParams['text.usetex'] = True 
-    # n=AA.shape[0]
+    #################
+    ## Plot AHA
+    AA=np.dot(A0mat.T.conj(),A0mat)
+    A0mat,Amat=TOP.make_A0new_ReIm(Row0,Row1)
+    AA_ReIm=np.dot(A0mat.T.conj(),A0mat)
+    import matplotlib as mpl 
+    mpl.rcParams['text.latex.preamble'].append(r'\usepackage{bm}')
+    mpl.rcParams['text.latex.preamble'].append(r'\usepackage{mathbbol}')
+    mpl.rcParams['text.usetex'] = True 
+    n=AA.shape[0]
 
-    # import ModLinAlg
-    # #AA=ModLinAlg.invSVD(AA)
-    # #AA_ReIm=ModLinAlg.invSVD(AA_ReIm)
+    import ModLinAlg
+    #AA=ModLinAlg.invSVD(AA)
+    #AA_ReIm=ModLinAlg.invSVD(AA_ReIm)
 
-    # pylab.subplot(2,2,1)
-    # pylab.imshow(np.abs(AA),interpolation="nearest",cmap="binary",extent=(0,n,n,0))
-    # pylab.plot([0,n],[n/2,n/2],ls=":",color="black")
-    # pylab.plot([n/2,n/2],[0,n],ls=":",color="black")
-    # pylab.xlim(0,n)
-    # pylab.ylim(n,0)
+    pylab.subplot(1,2,1)
+    pylab.imshow(np.abs(AA),interpolation="nearest",cmap="binary",extent=(0,n,n,0))
+    pylab.plot([0,n],[n/2,n/2],ls=":",color="black")
+    pylab.plot([n/2,n/2],[0,n],ls=":",color="black")
+    pylab.xlim(0,n)
+    pylab.ylim(n,0)
     # pylab.subplot(2,2,3)
     # pylab.imshow(np.angle(AA),interpolation="nearest",extent=(0,n,n,0))
     # pylab.plot([0,n],[n/2,n/2],ls=":",color="black")
@@ -181,15 +180,15 @@ def estimate_xi_pseudo(Row0,Row1,xi=None):
     # pylab.ylim(n,0)
     # #pylab.title(r"$\bmath{\mathcal{J}}}$")
     # #pylab.title(r"$\bm{\mathcal{J}}$")
-    # pylab.title(r"Wirtinger $\bm{J}^{H}\bm{J}$")
+    pylab.title(r"Wirtinger $\bm{J}^{H}\bm{J}$")
 
-    # pylab.subplot(2,2,2)
-    # pylab.imshow(np.abs(AA_ReIm),interpolation="nearest",cmap="binary",extent=(0,n,n,0))
-    # pylab.title(r"Re/Im $\bm{J}^{H}\bm{J}$")
-    # pylab.plot([0,n],[n/2,n/2],ls=":",color="black")
-    # pylab.plot([n/2,n/2],[0,n],ls=":",color="black")
-    # pylab.xlim(0,n)
-    # pylab.ylim(n,0)
+    pylab.subplot(1,2,2)
+    pylab.imshow(np.abs(AA_ReIm),interpolation="nearest",cmap="binary",extent=(0,n,n,0))
+    pylab.title(r"Re/Im $\bm{J}^{H}\bm{J}$")
+    pylab.plot([0,n],[n/2,n/2],ls=":",color="black")
+    pylab.plot([n/2,n/2],[0,n],ls=":",color="black")
+    pylab.xlim(0,n)
+    pylab.ylim(n,0)
     # pylab.subplot(2,2,4)
     # pylab.imshow(np.angle(AA_ReIm),interpolation="nearest",extent=(0,n,n,0))
     # pylab.title(r"Re/Im $\bm{J}^{H}\bm{J}$")
@@ -198,14 +197,14 @@ def estimate_xi_pseudo(Row0,Row1,xi=None):
     # pylab.xlim(0,n)
     # pylab.ylim(n,0)
     # #pylab.colorbar()
-    # pylab.tight_layout()
-    # pylab.draw()
-    # pylab.pause(0.1)
-    # pylab.show(False)
+    pylab.tight_layout()
+    pylab.draw()
+    pylab.pause(0.1)
+    pylab.show(False)
 
-    # stop
-    #####################################
-    #####################################
+    stop
+    
+    
 
     #timer.timeit(" A0")
     A0matList,AmatList=TOP.make_A0newList(Row0,Row1)
