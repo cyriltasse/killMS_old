@@ -149,14 +149,12 @@ def estimate_xi_pseudo(Row0,Row1,xi=None):
     x0.fill(1.)
     if xi==None:
         xi=x0.copy()
-        
-    #x0=np.random.randn(na*NDir)+1j*np.random.randn(na*NDir)
     
-    
+    # x0=np.random.randn(na*NDir)+1j*np.random.randn(na*NDir)
     # AmatList=TOP.give_AnewList(x0,A0matList,AmatList,Ntimes)
     # predict0List=ModMatOp.dotAvecList(AmatList,x0.conj(),Ntimes)#np.dot(A,xi.conj())
     # b=predict0List
-    # b+=np.random.randn(b.size)+1j*np.random.randn(b.size)
+    # b+=0.1*(np.random.randn(b.size)+1j*np.random.randn(b.size))
     
     
     xbef=np.zeros((niter,xi.shape[0]),dtype=np.complex)
@@ -195,7 +193,7 @@ def estimate_xi_pseudo(Row0,Row1,xi=None):
         predict0List=ModMatOp.dotAvecList(AmatList,xi.conj(),Ntimes)#np.dot(A,xi.conj())
 
         AHvecList=ModMatOp.dotAHvecList(AmatList,b-predict0List,Ntimes)
-        xi+=ModMatOp.dotAvecList(AHAinvList,AHvecList,Ntimes).conj()
+        xi+=0.5*ModMatOp.dotAvecList(AHAinvList,AHvecList,Ntimes).conj()
         #timer.timeit(" 22")
         #print 
         #xi*=VecWeigth
@@ -205,9 +203,10 @@ def estimate_xi_pseudo(Row0,Row1,xi=None):
 
         #=========================================
         xbef[i,:]=xi
-        if (i>1):
-            xi=(xbef[i-1]+xbef[i])/2.
-            #print xi
+
+        # if (i>1):
+        #     xi=(xbef[i-1]+xbef[i])/2.
+        #     #print xi
 
         # #=========================================
         # xip=xi.copy()
@@ -289,6 +288,7 @@ def estimate_xi_pseudo(Row0,Row1,xi=None):
     # print TOP.weigths
     # print "T_give_Anew, T_give_AHA_flat, T_invertAHAflat, T_dotAHvec, T_dotAvec = ",T_give_Anew, T_give_AHA_flat, T_invertAHAflat, T_dotAHvec, T_dotAvec
 
+    # np.savez("xbef",xbef=xbef,x0=x0,NDir=NDir)
 
     return xiout,xi
 
