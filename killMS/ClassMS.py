@@ -397,12 +397,13 @@ class ClassMS():
         ta.close()
          
         self.DoRevertChans=False
+
         if Nchan>1:
             self.DoRevertChans=(self.ChanFreq.flatten()[0]>self.ChanFreq.flatten()[-1])
         if self.DoRevertChans:
             print ModColor.Str("  ====================== >> Revert Channel order!")
-            wavelength_chan=wavelength_chan[0,::-1]
-            self.ChanFreq=self.ChanFreq[0,::-1]
+            wavelength_chan=wavelength_chan[:,::-1]
+            self.ChanFreq=self.ChanFreq[:,::-1]
             self.dFreq=np.abs(self.dFreq)
 
         T.timeit()
