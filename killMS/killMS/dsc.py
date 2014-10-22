@@ -16,7 +16,7 @@ if __name__=="__main__":
 
 
     os.system("rm -f %s"%imout)
-    strexec="image2fits in=%s out=%s; /home/tasse/builds/ds9/ds9 %s"%(imin,imout,imout)
+    strexec="image2fits in=%s out=%s; ds9 %s"%(imin,imout,imout)
     os.system(strexec)
 
 

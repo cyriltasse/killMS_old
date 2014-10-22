@@ -156,13 +156,13 @@ def estimate_xi_pseudo(Row0,Row1,xi=None):
     AA=np.dot(A0mat.T.conj(),A0mat)
     A0mat,Amat=TOP.make_A0new_ReIm(Row0,Row1)
     AA_ReIm=np.dot(A0mat.T.conj(),A0mat)
-    import matplotlib as mpl 
-    mpl.rcParams['text.latex.preamble'].append(r'\usepackage{bm}')
-    mpl.rcParams['text.latex.preamble'].append(r'\usepackage{mathbbol}')
-    mpl.rcParams['text.usetex'] = True 
-    mpl.rc('xtick', labelsize=20) 
-    mpl.rc('ytick', labelsize=20) 
-    mpl.rcParams.update({'font.size': 15})
+    # import matplotlib as mpl 
+    # mpl.rcParams['text.latex.preamble'].append(r'\usepackage{bm}')
+    # mpl.rcParams['text.latex.preamble'].append(r'\usepackage{mathbbol}')
+    # mpl.rcParams['text.usetex'] = True 
+    # mpl.rc('xtick', labelsize=20) 
+    # mpl.rc('ytick', labelsize=20) 
+    # mpl.rcParams.update({'font.size': 15})
     n=AA.shape[0]
 
     import ModLinAlg
@@ -173,69 +173,107 @@ def estimate_xi_pseudo(Row0,Row1,xi=None):
     np.savez("AA",AA=AA,NDir=NDir)
     na=AA.shape[0]/NDir/2
 
+    def DoPlot(AA,istart=0,Ncol=2,ytitle=True,xtitle="Wirtinger",label=None):
 
-    ind=np.arange(0,AA.shape[0]).reshape(2,na,NDir)
-    ind0=ind[0].T.flatten()
-    ind1=ind[1].T.flatten()
-    ind=np.concatenate((ind0,ind1)).flatten()
-    AA_0=AA[ind,:][:,ind]
-    AA_ReIm_0=AA_ReIm[ind,:][:,ind]
+        ind_CAD=np.arange(0,AA.shape[0]).reshape(2,na,NDir) 
+        ind_CDA=np.swapaxes(ind_CAD,1,2)
+        ind_DCA=np.swapaxes(ind_CDA,0,1)
+        ind_ACD=np.swapaxes(ind_CAD,0,1)
+        
+        #ind0=ind[0].T.flatten()
+        #ind1=ind[1].T.flatten()
+        #ind=np.concatenate((ind0,ind1)).flatten()
+        #AA_0=AA[ind,:][:,ind]
+        #AA_ReIm_0=AA_ReIm[ind,:][:,ind]
+    
+        AA_CAD=AA[ind_CAD.flatten(),:][:,ind_CAD.flatten()]
+        AA_CDA=AA[ind_CDA.flatten(),:][:,ind_CDA.flatten()]
+        AA_DCA=AA[ind_DCA.flatten(),:][:,ind_DCA.flatten()]
+        AA_ACD=AA[ind_ACD.flatten(),:][:,ind_ACD.flatten()]
+    
+        # pylab.subplot(1,3,1)
+        # pylab.imshow(np.abs(AA_ReIm),interpolation="nearest",extent=(0,n,n,0),cmap="binary")
+        # pylab.title(r"Re/Im $\bm{J_0}^{H}\bm{J_0}$")
+        # pylab.plot([0,n],[n/2,n/2],ls=":",color="black")
+        # pylab.plot([n/2,n/2],[0,n],ls=":",color="black")
+        # pylab.xlim(0,n)
+        # pylab.ylim(n,0)
+        # #pylab.colorbar()
+    
+    
+        ax=pylab.subplot(Ncol,4,istart+1)
+        ax.imshow(np.abs(AA_CDA),interpolation="nearest",extent=(0,n,n,0),cmap="binary")
+        #pylab.title(r"Re/Im $\bm{J_0}^{H}\bm{J_0}$")
+        #if ytitle: pylab.title("CDA")
+        pylab.ylabel(xtitle,fontsize=15)
+        if ytitle:
+            pylab.xlabel("CDA",fontsize=15)
+            ax.xaxis.set_label_position('top') 
+        #pylab.plot([0,n],[n/2,n/2],ls=":",color="black")
+        #pylab.plot([n/2,n/2],[0,n],ls=":",color="black")
+        pylab.xticks([]); pylab.yticks([])
+        pylab.xlim(0,n)
+        pylab.ylim(n,0)
+        ax.text(0.87, 0.9, '(%s)'%label[0],
+                transform=ax.transAxes,
+                fontsize=15)
+    
+        ax=pylab.subplot(Ncol,4,istart+2)
+        pylab.imshow(np.abs(AA_CAD),interpolation="nearest",cmap="binary",extent=(0,n,n,0))#,vmax=np.max(np.abs(AA))/2.)
+        #pylab.plot([0,n],[n/2,n/2],ls=":",color="black")
+        #pylab.plot([n/2,n/2],[0,n],ls=":",color="black")
+        pylab.xticks([]); pylab.yticks([])
+        pylab.xlim(0,n)
+        pylab.ylim(n,0)
+        #if ytitle: pylab.title("CAD")
+        if ytitle:
+            pylab.xlabel("CAD",fontsize=15)
+            ax.xaxis.set_label_position('top') 
+        ax.text(0.87, 0.9, '(%s)'%label[1],
+                transform=ax.transAxes,
+                fontsize=15)
+    
+        ax=pylab.subplot(Ncol,4,istart+3)
+        pylab.imshow(np.abs(AA_DCA),interpolation="nearest",cmap="binary",extent=(0,n,n,0))#,vmax=np.max(np.abs(AA))/2.)
+        #pylab.plot([0,n],[n/2,n/2],ls=":",color="black")
+        #pylab.plot([n/2,n/2],[0,n],ls=":",color="black")
+        pylab.xticks([]); pylab.yticks([])
+        pylab.xlim(0,n)
+        pylab.ylim(n,0)
+        #pylab.title(r"Wirtinger $\bm{J_1}^{H}\bm{J_1}$")
+        #if ytitle: pylab.title("DCA")
+        if ytitle:
+            pylab.xlabel("DCA",fontsize=15)
+            ax.xaxis.set_label_position('top') 
+        ax.text(0.87, 0.9, '(%s)'%label[2],
+                transform=ax.transAxes,
+                fontsize=15)
+    
+        ax=pylab.subplot(Ncol,4,istart+4)
+        pylab.imshow(np.abs(AA_ACD),interpolation="nearest",cmap="binary",extent=(0,n,n,0))#,vmax=np.max(np.abs(AA))/2.)
+        #pylab.plot([0,n],[n/2,n/2],ls=":",color="black")
+        #pylab.plot([n/2,n/2],[0,n],ls=":",color="black")
+        pylab.xticks([]); pylab.yticks([])
+        pylab.xlim(0,n)
+        pylab.ylim(n,0)
+        #if ytitle: pylab.title("ACD")
+        if ytitle:
+            pylab.xlabel("ACD",fontsize=15)
+            ax.xaxis.set_label_position('top') 
+        ax.text(0.87, 0.9, '(%s)'%label[3],
+                transform=ax.transAxes,
+                fontsize=15)
 
 
-
-    pylab.subplot(1,3,1)
-    pylab.imshow(np.abs(AA_ReIm_0),interpolation="nearest",extent=(0,n,n,0),cmap="binary")
-    pylab.title(r"Re/Im $\bm{J_0}^{H}\bm{J_0}$")
-    pylab.plot([0,n],[n/2,n/2],ls=":",color="black")
-    pylab.plot([n/2,n/2],[0,n],ls=":",color="black")
-    pylab.xlim(0,n)
-    pylab.ylim(n,0)
-    #pylab.colorbar()
-
-    pylab.subplot(1,3,3)
-    pylab.imshow(np.abs(AA),interpolation="nearest",cmap="binary",extent=(0,n,n,0))#,vmax=np.max(np.abs(AA))/2.)
-    pylab.plot([0,n],[n/2,n/2],ls=":",color="black")
-    pylab.plot([n/2,n/2],[0,n],ls=":",color="black")
-    pylab.xlim(0,n)
-    pylab.ylim(n,0)
-    pylab.title(r"Wirtinger $\bm{J_1}^{H}\bm{J_1}$")
-
-    pylab.subplot(1,3,2)
-    pylab.imshow(np.abs(AA_0),interpolation="nearest",cmap="binary",extent=(0,n,n,0))#,vmax=np.max(np.abs(AA))/2.)
-    pylab.plot([0,n],[n/2,n/2],ls=":",color="black")
-    pylab.plot([n/2,n/2],[0,n],ls=":",color="black")
-    pylab.xlim(0,n)
-    pylab.ylim(n,0)
-
-    # pylab.subplot(2,2,3)
-    # pylab.imshow(np.angle(AA),interpolation="nearest",extent=(0,n,n,0))
-    # pylab.plot([0,n],[n/2,n/2],ls=":",color="black")
-    # pylab.plot([n/2,n/2],[0,n],ls=":",color="black")
-    # pylab.xlim(0,n)
-    # pylab.ylim(n,0)
-    # #pylab.title(r"$\bmath{\mathcal{J}}}$")
-    # #pylab.title(r"$\bm{\mathcal{J}}$")
-    #pylab.title(r"Wirtinger half-$\bm{J}^{H}\bm{J}$")
-    pylab.title(r"Wirtinger $\bm{J_0}^{H}\bm{J_0}$")
-    #pylab.title(r"Amplitude")
-    # pylab.subplot(1,2,2)
-    # pylab.imshow(np.abs(np.angle(AA)),interpolation="nearest",extent=(0,n,n,0),cmap="binary",vmin=0,vmax=np.pi)#np.abs(AA_ReIm),interpolation="nearest",cmap="binary",extent=(0,n,n,0))#,vmax=np.max(np.abs(AA_ReIm))/2.)
-    # #pylab.imshow(np.angle(AA),interpolation="nearest",extent=(0,n,n,0),vmin=-np.pi,vmax=np.pi,cmap="MyRedBlue")#np.abs(AA_ReIm),interpolation="nearest",cmap="binary",extent=(0,n,n,0))#,vmax    #pylab.title(r"Re/Im half-$\bm{J}^{H}\bm{J}$")
-    # #pylab.title(r"Wirtinger half-$\bm{J}^{H}\bm{J}$")
-    # pylab.title("Phase")
-    # pylab.plot([0,n],[n/2,n/2],ls=":",color="black")
-    # pylab.plot([n/2,n/2],[0,n],ls=":",color="black")
-    # pylab.xlim(0,n/2)
-    # pylab.ylim(n/2,0)
-    mpl.rcParams.update({'font.size': 22})
-    #pylab.suptitle(r"Wirtinger half-$\bm{J}^{H}\bm{J}$")
+    fig=pylab.figure(1)
+    DoPlot(AA_ReIm,0,xtitle="Classical Re/Im",label=["a","b","c","d"])
+    DoPlot(AA,4,ytitle=False,xtitle="Wirtinger",label=["e","f","g","h"])
     pylab.tight_layout()
     pylab.draw()
     pylab.pause(0.1)
     pylab.show(False)
-
     stop
-    
+        
     
 
     #timer.timeit(" A0")
