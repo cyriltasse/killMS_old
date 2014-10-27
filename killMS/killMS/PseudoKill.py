@@ -272,6 +272,32 @@ def estimate_xi_pseudo(Row0,Row1,xi=None):
     pylab.draw()
     pylab.pause(0.1)
     pylab.show(False)
+
+    fig=pylab.figure(2)
+    ax=pylab.subplot(1,2,1)
+    pylab.imshow(np.abs(AA),interpolation="nearest",extent=(0,n,n,0),cmap="binary")
+    pylab.xlim(0,n/2)
+    pylab.ylim(n/2,0)
+    pylab.xticks([]); pylab.yticks([])
+    pylab.title("Amplitude")
+    ax=pylab.subplot(1,2,2)
+    pylab.imshow(np.angle(AA),interpolation="nearest",extent=(0,n,n,0),cmap="MyRedBlue",vmin=-np.pi,vmax=np.pi)
+    pylab.title("Phase")
+    #pylab.plot([0,n],[n/2,n/2],ls=":",color="black")
+    #pylab.plot([n/2,n/2],[0,n],ls=":",color="black")
+    pylab.xlim(0,n/2)
+    pylab.ylim(n/2,0)
+    pylab.xticks([]); pylab.yticks([])
+    #pylab.colorbar()
+    pylab.tight_layout()
+    pylab.draw()
+    pylab.pause(0.1)
+    pylab.show(False)
+
+
+
+
+
     stop
         
     
