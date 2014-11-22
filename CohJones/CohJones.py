@@ -3,7 +3,7 @@
 import optparse
 import sys
 import MyPickle
-import logo
+#import logo
 
 sys.path=[name for name in sys.path if not(("pyrap" in name)&("/usr/local/lib/" in name))]
 
@@ -36,7 +36,7 @@ import PseudoKill
 import ClassTimeIt
 
 def read_options():
-    desc="""killMS Questions and suggestions: cyril.tasse@obspm.fr"""
+    desc="""CohJones Questions and suggestions: cyril.tasse@obspm.fr"""
     
     opt = optparse.OptionParser(usage='Usage: %prog --ms=somename.MS <options>',version='%prog version 1.0',description=desc)
     group = optparse.OptionGroup(opt, "* Data-related options", "Won't work if not specified.")
@@ -224,5 +224,5 @@ if __name__=="__main__":
     if options.Restore=="1":
         Restore(options)
     else:
-        logo.print_logo()
+        #logo.print_logo()
         main(options=options)

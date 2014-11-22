@@ -1,3 +1,5 @@
+import logo
+logo.print_logo()
 import sys
 import numpy as np
 import numpy.linalg as linalg
@@ -17,7 +19,6 @@ import ModColor
 from ClassSols import ClassSols
 from pyrap.tables import table
 import pylab
-   
     
 def PseudoKill(PM,delta_time=30,niterin=40,NCPU=6,T0=0,T1=-1,PrintProps=0):
     #import pylab
