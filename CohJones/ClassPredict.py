@@ -9,7 +9,7 @@ from progressbar import ProgressBar
 import multiprocessing
 
 class ClassPredict():
-    def __init__(self,MS,modelName,Cluster="",NCluster=0,NCPU=None,freqs=None):
+    def __init__(self,MS,modelName,Cluster="",NCluster=0,NCPU=None,freqs=None,LOFARBeamParms=None):
         if type(MS)==str:
             self.MS=ClassMS(MS,Col="CORRECTED_DATA",ReOrder=True)
         else: 
@@ -18,7 +18,7 @@ class ClassPredict():
             self.SM=ClassSM(modelName,infile_cluster=Cluster,NCluster=NCluster)
         else:
             self.SM=modelName
-
+        self.LOFARBeamParms=LOFARBeamParms
         self.NDir=self.SM.NDir
         self.CT=ClassTimeIt()
         if NCPU==None:
@@ -76,7 +76,7 @@ class ClassPredict():
             dirindex=0
             for i in Dirs:
                 #print i,"/",self.NDir
-                ColOutDir=self.PredictDirSPW(i,spw,U,V,W,pBAR=pBAR)
+                ColOutDir=self.PredictDirSPW(i,spw,U,V,W,pBAR=pBAR,timesA0A1=(TVec,A0Vec,A1Vec))
                 if Sols!=None:
                     gg=Sols.GiveRawSols(TVec,A0Vec,A1Vec,idir=dirindex)
                     ColOut=ne.evaluate("ColOut+gg*ColOutDir")
@@ -91,7 +91,7 @@ class ClassPredict():
         self.pBAR.reset()
         if Return: return DataOut
 
-    def PredictDirSPW(self,idir,spw,U,V,W,flags=None,uvw=None,pBAR=False):
+    def PredictDirSPW(self,idir,spw,U,V,W,flags=None,uvw=None,pBAR=False,timesA0A1=None):
 
         SourceCat=self.SM.SourceCat
 
@@ -116,6 +116,34 @@ class ClassPredict():
         Gangle=SourceCat.Gangle[ind0]
         Ssel  =SourceCat.Sref[ind0]*(freq[spw]/SourceCat.RefFreq[ind0])**(SourceCat.alpha[ind0])
         KillIt=SourceCat.kill[ind0]
+
+        nf=freq.size
+        ApplyBeam=False
+
+        if (self.LOFARBeamParms!=None)&(timesA0A1!=None):
+            times,A0,A1=timesA0A1
+            TimeSet=sorted(list(set(times.tolist())))
+            if not(np.max(times) in TimeSet):
+                TimeSet.append(np.max(times))
+
+            TimeSet=np.array(TimeSet)
+            DicoBeam={}
+            DicoBeam["timerange"]=TimeSet
+            StepBeam=self.LOFARBeamParms[1]
+            TimesCalc=TimeSet[::StepBeam]
+            NTimes=TimesCalc.size
+            if NTimes>1:
+                DtBeam=TimesCalc[1]-TimesCalc[0]
+            else:
+                DtBeam=1
+            TimesCalc+=DtBeam/2.
+            DicoBeam["TimesCalc"]=TimesCalc
+            for iTime,ThisTime in zip(range(NTimes),TimesCalc):
+                DicoBeam[iTime]={}
+                DicoBeam[iTime]["Beam"]=self.MS.GiveBeam(ThisTime,self.SM.SourceCat.ra[ind0],self.SM.SourceCat.dec[ind0],Normalise=True)[:,nf/2,:,0,0]
+                DicoBeam[iTime]["t0,t1"]=ThisTime-DtBeam/2.,ThisTime+DtBeam
+            ApplyBeam=True
+
 
         for dd in range(len(ind0)):
             l,m=self.MS.radec2lm_scalar(rasel[dd],decsel[dd])
@@ -146,6 +174,20 @@ class ClassPredict():
                 KernelPha=ne.evaluate("KernelPha+uvp")
             LogF=np.log(f)
             Kernel=ne.evaluate("exp(KernelPha+LogF)")
+
+            if ApplyBeam:
+                TimesCalc=DicoBeam["TimesCalc"]
+                for iTime,ThisTime in zip(range(NTimes),TimesCalc):
+                    ThisBeam=DicoBeam[iTime]["Beam"][dd]
+                    t0,t1=DicoBeam[iTime]["t0,t1"]
+                    indrow=np.where((times>t0)&(times<=t1))[0]
+                    row0,row1=np.min(indrow),np.max(indrow)
+                    g0=ThisBeam[A0[row0:row1]]
+                    g1=ThisBeam[A1[row0:row1]]
+                    gg=g0*np.conj(g1)
+                    Kernel[row0:row1]*=gg
+                    
+
             ColOut=ne.evaluate("ColOut+Kernel")
             if pBAR==True:
                 comment='src %i/%i, spw %i/%i' % (self.DoneSource+1,self.SM.NSources,spw+1,self.MS.NSPWChan)

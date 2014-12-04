@@ -63,7 +63,9 @@ class ClassMS():
             c.fill(np.abs((f[0:-1]-f[1::])[0]))
             t.putcol("CHAN_WIDTH",c)
             t.close()
-        self.SR = lsr.stationresponse(self.MSName,useElementBeam=useElementBeam)
+        self.SR = lsr.stationresponse(self.MSName,
+                                      useElementResponse=useElementBeam,
+                                      useArrayFactor=useArrayFactor)
         self.SR.setDirection(self.rarad,self.decrad)
         
     def CopyNonSPWDependent(self,MSnodata):
@@ -113,11 +115,13 @@ class ClassMS():
         self.LOFAR_ANTENNA_FIELD=Dico
         
         
-    def GiveBeam(self,time,ra,dec):
+    def GiveBeam(self,time,ra,dec,Normalise=False):
         Beam=np.zeros((ra.shape[0],self.na,self.NSPWChan,2,2),dtype=np.complex)
         for i in range(ra.shape[0]):
             self.SR.setDirection(ra[i],dec[i])
             Beam[i]=self.SR.evaluate(time)
+        if Normalise:
+            stop
         Beam=np.swapaxes(Beam,1,2)
         return Beam
 

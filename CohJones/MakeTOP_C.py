@@ -86,6 +86,7 @@ class ClassMakeTOP():
         nbl=self.MS.nbl
         NDir=self.SM.NDir
         uvw=self.MS.uvw[row0:row1]
+        times=self.MS.times_all[row0:row1]
         NSPWChan=self.MS.NSPWChan
         SourceCat=self.SM.SourceCat
         dt=self.MS.dt
@@ -96,7 +97,7 @@ class ClassMakeTOP():
         AmatList=[]
 
 
-        Amat=np.zeros((NSPWChan*Ntimes*na,NDir*na),dtype=np.complex)
+        #Amat=np.zeros((NSPWChan*Ntimes*na,NDir*na),dtype=np.complex)
         vv=np.zeros((uvw.shape[0],),dtype=np.complex)
         alpha=0.
         exp=np.exp
@@ -119,7 +120,7 @@ class ClassMakeTOP():
                 V=uvw[:,1].astype(float).flatten().copy()
                 W=uvw[:,2].astype(float).flatten().copy()
 
-                vv=self.PM.PredictDirSPW(self.SM.Dirs[i],spw,U,V,W,flags=ff)
+                vv=self.PM.PredictDirSPW(self.SM.Dirs[i],spw,U,V,W,flags=ff,timesA0A1=(times,ant0,ant1))
                 #vv=self.PM.PredictDirSPW(i,spw,uvw=uvw,flags=ff)
                 #vv[(ff==True)|(PM.)]=0.
                 noise=(np.random.randn(vv.shape[0])+1j*np.random.randn(vv.shape[0]))*1e-6

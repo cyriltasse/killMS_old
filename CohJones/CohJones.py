@@ -59,6 +59,7 @@ def read_options():
     group.add_option('--ChanSels',help=' Channel selection. Default is %default',default="")
     group.add_option('--BLFlags',help=' Baselines To be flagged. Default is %default',default="")
     group.add_option('--Restore',help=' Restore BACKUP in CORRECTED. Default is %default',default="0")
+    group.add_option('--LOFARBeamParms',help='Applying the LOFAR beam parameters [Mode[A,AE,E],TimeStep]. Default is %default',default="")
 
     group.add_option('--TChunk',help=' Time Chunk in hours. Default is %default',default="15")
     group.add_option('--SubOnly',help=' Only substract the skymodel. Default is %default',default="0")
@@ -102,10 +103,30 @@ def main(options=None):
     NCPU=int(options.NCPU)
     SubOnly=(int(options.SubOnly)==1)
     invert=(options.invert=="1")
+    
+
+
+        
     MS=ClassMS.ClassMS(options.ms,Col=options.InCol,ReOrder=True,EqualizeFlag=True,
                        DoReadData=0,TimeChunkSize=TChunk)#,RejectAutoCorr=True)
     MS.PutBackupCol()
-
+    ApplyBeam=False
+    LOFARBeamParms=None
+    if options.LOFARBeamParms!="":
+        Mode,BeamTimeStep=options.LOFARBeamParms.split(",")
+        BeamTimeStep=float(BeamTimeStep)
+        ApplyBeam=True
+        LOFARBeamParms=Mode,BeamTimeStep
+        useElementBeam=False
+        useArrayFactor=False
+        if "A" in Mode:
+            useArrayFactor=True
+        if "E" in Mode:
+            useElementBeam=True
+            print "doesn't work yet"
+            exit()
+            
+        MS.LoadSR(useArrayFactor=useArrayFactor,useElementBeam=useElementBeam)
 
     if options.kills!="":
         kills=options.kills.split(",")
@@ -115,7 +136,7 @@ def main(options=None):
     SM=ClassSM.ClassSM(options.SkyModel,infile_cluster="",killdirs=kills,invert=invert,solveFor=[],DoPrintCat=False)
     
     #PMachine=ClassPredict(MS,options.SkyModel,Cluster=options.ClusterList,NCluster=NCluster,NCPU=NCPU)
-    PMachine=ClassPredict(MS,SM,NCPU=NCPU)
+    PMachine=ClassPredict(MS,SM,NCPU=NCPU,LOFARBeamParms=LOFARBeamParms)
     
     
     timer=ClassTimeIt.ClassTimeIt()
@@ -218,8 +239,8 @@ if __name__=="__main__":
     if options.DoBar=="0":
         from progressbar import ProgressBar
         ProgressBar.silent=1
-    else:
-        os.system('clear')
+    # else:
+    #     os.system('clear')
 
     if options.Restore=="1":
         Restore(options)

@@ -62,18 +62,18 @@ def PseudoKill(PM,delta_time=30,niterin=40,NCPU=6,T0=0,T1=-1,PrintProps=0):
         x0=np.ones((NDir*na,),dtype=np.complex) 
         jobs.append([Row0,Row1,x0])
 
-    # ######### DEBUG
-    # pylab.ion()
-    # xi=1.+(np.random.randn(NDir*na)+1j*np.random.randn(NDir*na))*1e-1
-    # #xi.fill(1.)
-    # for itime in range(len(ss)-1):
-    #     time_value=(time_slots_all[ss[itime]]+time_slots_all[ss[itime+1]])/2.
-    #     Row0=ss[itime]*nbl
-    #     Row1=ss[itime+1]*nbl
-    #     xiout,xi=estimate_xi_pseudo(Row0,Row1)
-    #     #xiout,xi=KalmanStep(Row0,Row1,xi)
-    # stop
-    # ######### DEBUG
+    ######### DEBUG
+    pylab.ion()
+    xi=1.+(np.random.randn(NDir*na)+1j*np.random.randn(NDir*na))*1e-1
+    #xi.fill(1.)
+    for itime in range(len(ss)-1):
+        time_value=(time_slots_all[ss[itime]]+time_slots_all[ss[itime+1]])/2.
+        Row0=ss[itime]*nbl
+        Row1=ss[itime+1]*nbl
+        xiout,xi=estimate_xi_pseudo(Row0,Row1)
+        #xiout,xi=KalmanStep(Row0,Row1,xi)
+    stop
+    ######### DEBUG
 
     work_queue = multiprocessing.Queue()
     for job in jobs:
