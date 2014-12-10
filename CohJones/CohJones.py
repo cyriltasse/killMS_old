@@ -138,7 +138,6 @@ def main(options=None):
     #PMachine=ClassPredict(MS,options.SkyModel,Cluster=options.ClusterList,NCluster=NCluster,NCPU=NCPU)
     PMachine=ClassPredict(MS,SM,NCPU=NCPU,LOFARBeamParms=LOFARBeamParms)
     
-    
     timer=ClassTimeIt.ClassTimeIt()
 
     TimesInt=np.arange(0,MS.DTh,TChunk).tolist()
