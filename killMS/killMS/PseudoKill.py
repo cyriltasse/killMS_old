@@ -201,14 +201,15 @@ def estimate_xi_pseudo(Row0,Row1,xi=None):
         # #pylab.colorbar()
     
     
-        ax=pylab.subplot(Ncol,4,istart+1)
+        ax=pylab.subplot(4,2,istart)
         ax.imshow(np.abs(AA_CDA),interpolation="nearest",extent=(0,n,n,0),cmap="binary")
         #pylab.title(r"Re/Im $\bm{J_0}^{H}\bm{J_0}$")
         #if ytitle: pylab.title("CDA")
-        pylab.ylabel(xtitle,fontsize=15)
+        pylab.xlabel(xtitle,fontsize=15)
+        ax.xaxis.set_label_position('top') 
         if ytitle:
-            pylab.xlabel("CDA",fontsize=15)
-            ax.xaxis.set_label_position('top') 
+            pylab.ylabel("CDA",fontsize=15)
+            #ax.xaxis.set_label_position('top') 
         #pylab.plot([0,n],[n/2,n/2],ls=":",color="black")
         #pylab.plot([n/2,n/2],[0,n],ls=":",color="black")
         pylab.xticks([]); pylab.yticks([])
@@ -218,7 +219,7 @@ def estimate_xi_pseudo(Row0,Row1,xi=None):
                 transform=ax.transAxes,
                 fontsize=15)
     
-        ax=pylab.subplot(Ncol,4,istart+2)
+        ax=pylab.subplot(4,2,istart+2)
         pylab.imshow(np.abs(AA_CAD),interpolation="nearest",cmap="binary",extent=(0,n,n,0))#,vmax=np.max(np.abs(AA))/2.)
         #pylab.plot([0,n],[n/2,n/2],ls=":",color="black")
         #pylab.plot([n/2,n/2],[0,n],ls=":",color="black")
@@ -227,13 +228,13 @@ def estimate_xi_pseudo(Row0,Row1,xi=None):
         pylab.ylim(n,0)
         #if ytitle: pylab.title("CAD")
         if ytitle:
-            pylab.xlabel("CAD",fontsize=15)
-            ax.xaxis.set_label_position('top') 
+            pylab.ylabel("CAD",fontsize=15)
+            #ax.xaxis.set_label_position('top') 
         ax.text(0.87, 0.9, '(%s)'%label[1],
                 transform=ax.transAxes,
                 fontsize=15)
     
-        ax=pylab.subplot(Ncol,4,istart+3)
+        ax=pylab.subplot(4,2,istart+4)
         pylab.imshow(np.abs(AA_DCA),interpolation="nearest",cmap="binary",extent=(0,n,n,0))#,vmax=np.max(np.abs(AA))/2.)
         #pylab.plot([0,n],[n/2,n/2],ls=":",color="black")
         #pylab.plot([n/2,n/2],[0,n],ls=":",color="black")
@@ -243,13 +244,13 @@ def estimate_xi_pseudo(Row0,Row1,xi=None):
         #pylab.title(r"Wirtinger $\bm{J_1}^{H}\bm{J_1}$")
         #if ytitle: pylab.title("DCA")
         if ytitle:
-            pylab.xlabel("DCA",fontsize=15)
+            pylab.ylabel("DCA",fontsize=15)
             ax.xaxis.set_label_position('top') 
         ax.text(0.87, 0.9, '(%s)'%label[2],
                 transform=ax.transAxes,
                 fontsize=15)
     
-        ax=pylab.subplot(Ncol,4,istart+4)
+        ax=pylab.subplot(4,2,istart+6)
         pylab.imshow(np.abs(AA_ACD),interpolation="nearest",cmap="binary",extent=(0,n,n,0))#,vmax=np.max(np.abs(AA))/2.)
         #pylab.plot([0,n],[n/2,n/2],ls=":",color="black")
         #pylab.plot([n/2,n/2],[0,n],ls=":",color="black")
@@ -258,18 +259,23 @@ def estimate_xi_pseudo(Row0,Row1,xi=None):
         pylab.ylim(n,0)
         #if ytitle: pylab.title("ACD")
         if ytitle:
-            pylab.xlabel("ACD",fontsize=15)
-            ax.xaxis.set_label_position('top') 
+            pylab.ylabel("ACD",fontsize=15)
+            #ax.xaxis.set_label_position('top') 
         ax.text(0.87, 0.9, '(%s)'%label[3],
                 transform=ax.transAxes,
                 fontsize=15)
 
-
-    fig=pylab.figure(1)
-    DoPlot(AA_ReIm,0,xtitle="Classical Re/Im",label=["a","b","c","d"])
-    DoPlot(AA,4,ytitle=False,xtitle="Wirtinger",label=["e","f","g","h"])
+    r=29.7/13
+    f=7
+    fig0=pylab.figure(1,figsize=(f,f*r))
+    pylab.clf()
+    DoPlot(AA_ReIm,1,xtitle="Classical Re/Im",label=["a","b","c","d"])
+    DoPlot(AA,2,ytitle=False,xtitle="Wirtinger",label=["e","f","g","h"])
     pylab.tight_layout()
     pylab.draw()
+    fig0.savefig("JHJ_all.new.pdf")
+    fig0.savefig("JHJ_all.new.eps")
+    fig0.savefig("JHJ_all.new.png")
     pylab.pause(0.1)
     pylab.show(False)
 
