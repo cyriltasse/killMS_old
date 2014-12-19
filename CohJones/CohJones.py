@@ -60,7 +60,7 @@ def read_options():
     #group.add_option('--BLFlags',help=' Baselines To be flagged. Default is %default',default="")
     group.add_option('--Restore',help=' Restore BACKUP in CORRECTED. Default is %default',default="0")
     #group.add_option('--LOFARBeamParms',help='Applying the LOFAR beam parameters [Mode[A,AE,E],TimeStep]. Default is %default',default="")
-    group.add_option('--LOFARBeamParms',help='Not Working yet')
+    group.add_option('--LOFARBeamParms',help='Not Working yet',default="")
 
     group.add_option('--TChunk',help=' Time Chunk in hours. Default is %default',default="15")
     group.add_option('--SubOnly',help=' Only substract the skymodel. Default is %default',default="0")

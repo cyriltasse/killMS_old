@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import optparse
-import ClassSM
+
 
 
 def read_options():
@@ -24,9 +24,17 @@ if __name__=="__main__":
     DoPlot=(int(options.DoPlot)==1)
     DoSelect=(int(options.DoSelect)==1)
     CMethod=int(options.CMethod)
+
+    if DoPlot==0:
+        import matplotlib
+        matplotlib.use('agg')
+
+
+    import ClassSM
     SM=ClassSM.ClassSM(options.SkyModel,ReName=True,
                        DoREG=True,SaveNp=True,
                        NCluster=NCluster,DoPlot=DoPlot,
                        SelSource=DoSelect,ClusterMethod=CMethod)
+
     if options.DoPrint=="1":
         SM.print_sm2()
