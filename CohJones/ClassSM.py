@@ -275,14 +275,16 @@ class ClassSM():
         # #time.sleep(1)
         # #return
         vmin,vmax=np.min(ss),np.max(ss)
-        print
-        print vmin,vmax
-        pylab.ion()
-        pylab.scatter(xx,yy,marker="s",c=ss,s=50,vmin=vmin,vmax=vmax)
-        pylab.xlim(x0,x1)
-        pylab.ylim(y0,y1)
-        pylab.draw()
-        pylab.show()
+
+
+        if DoPlot:
+            pylab.ion()
+            pylab.scatter(xx,yy,marker="s",c=ss,s=50,vmin=vmin,vmax=vmax)
+            pylab.xlim(x0,x1)
+            pylab.ylim(y0,y1)
+            pylab.draw()
+            pylab.show()
+
         for i in range(nk):
             time.sleep(1)
             ind=np.where(ss==np.max(ss))
@@ -291,19 +293,20 @@ class ClassSM():
             ss-=ss[ind]*np.exp(-((xx-xnode[-1])**2/sigx**2+(yy-ynode[-1])**2/sigy**2))
 
 
-            pylab.clf()
-            pylab.scatter(xx,yy,marker="s",c=ss,s=50)#,vmin=vmin,vmax=vmax)
-            #pylab.scatter(xnode[-1],ynode[-1],marker="s",vmin=vmin,vmax=vmax)
-            pylab.scatter(xnode,ynode,marker="s",color="red",vmin=vmin,vmax=vmax)
-            #pylab.scatter(x,y,marker="o")#,vmin=vmin,vmax=vmax)
-            #pylab.colorbar()
-            pylab.xlim(x0,x1)
-            pylab.ylim(y0,y1)
-            pylab.draw()
-            pylab.show()
-            pylab.pause(0.1)
+            if DoPlot:
+                pylab.clf()
+                pylab.scatter(xx,yy,marker="s",c=ss,s=50)#,vmin=vmin,vmax=vmax)
+                #pylab.scatter(xnode[-1],ynode[-1],marker="s",vmin=vmin,vmax=vmax)
+                pylab.scatter(xnode,ynode,marker="s",color="red",vmin=vmin,vmax=vmax)
+                #pylab.scatter(x,y,marker="o")#,vmin=vmin,vmax=vmax)
+                #pylab.colorbar()
+                pylab.xlim(x0,x1)
+                pylab.ylim(y0,y1)
+                pylab.draw()
+                pylab.show()
+                pylab.pause(0.1)
 
-        pylab.ioff()
+        if DoPlot: pylab.ioff()
 
         xnode=np.array(xnode)
         ynode=np.array(ynode)
