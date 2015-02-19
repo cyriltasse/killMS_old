@@ -79,6 +79,7 @@ class ClassPredict():
                 ColOutDir=self.PredictDirSPW(i,spw,U,V,W,pBAR=pBAR,timesA0A1=(TVec,A0Vec,A1Vec))
                 if Sols!=None:
                     gg=Sols.GiveRawSols(TVec,A0Vec,A1Vec,idir=dirindex)
+                    
                     ColOut=ne.evaluate("ColOut+gg*ColOutDir")
                 else:
                     ColOut=ne.evaluate("ColOut+ColOutDir")
@@ -175,17 +176,17 @@ class ClassPredict():
             LogF=np.log(f)
             Kernel=ne.evaluate("exp(KernelPha+LogF)")
 
-            if ApplyBeam:
-                TimesCalc=DicoBeam["TimesCalc"]
-                for iTime,ThisTime in zip(range(NTimes),TimesCalc):
-                    ThisBeam=DicoBeam[iTime]["Beam"][dd]
-                    t0,t1=DicoBeam[iTime]["t0,t1"]
-                    indrow=np.where((times>t0)&(times<=t1))[0]
-                    row0,row1=np.min(indrow),np.max(indrow)
-                    g0=ThisBeam[A0[row0:row1]]
-                    g1=ThisBeam[A1[row0:row1]]
-                    gg=g0*np.conj(g1)
-                    Kernel[row0:row1]*=gg
+            # if ApplyBeam:
+            #     TimesCalc=DicoBeam["TimesCalc"]
+            #     for iTime,ThisTime in zip(range(NTimes),TimesCalc):
+            #         ThisBeam=DicoBeam[iTime]["Beam"][dd]
+            #         t0,t1=DicoBeam[iTime]["t0,t1"]
+            #         indrow=np.where((times>t0)&(times<=t1))[0]
+            #         row0,row1=np.min(indrow),np.max(indrow)
+            #         g0=ThisBeam[A0[row0:row1]]
+            #         g1=ThisBeam[A1[row0:row1]]
+            #         gg=g0*np.conj(g1)
+            #         Kernel[row0:row1]*=gg
                     
 
             ColOut=ne.evaluate("ColOut+Kernel")

@@ -157,11 +157,20 @@ class ClassModMatOp():
         AHAList=[]
         timer=ClassTimeIt.ClassTimeIt()
         for i in range(na):
+            #print i
             iblock=0
             jblock=i*NDir
             subMat=A[i]
             #timer.timeit("select List")
             #AHA[:,jblock:jblock+NDir]=np.dot((subMat.T.conj()).copy(),subMat.copy())
+            #print subMat.T.conj().shape,subMat.shape
+            #print np.__file__
+            #a=np.random.randn(10,10)
+            #print np.dot(a,a)
+
+            a=np.dot(subMat.T.conj(),subMat)
+            #stop
+
             AHAList.append(np.dot(subMat.T.conj(),subMat))
             #timer.timeit("dot List dim=%s"%str(subMat.shape))
         # for ant in range(na):

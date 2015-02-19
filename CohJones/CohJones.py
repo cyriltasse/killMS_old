@@ -110,6 +110,7 @@ def main(options=None):
     MS=ClassMS.ClassMS(options.ms,Col=options.InCol,ReOrder=True,EqualizeFlag=True,
                        DoReadData=0,TimeChunkSize=TChunk)#,RejectAutoCorr=True)
     MS.PutBackupCol()
+
     ApplyBeam=False
     LOFARBeamParms=None
     if options.LOFARBeamParms!="":

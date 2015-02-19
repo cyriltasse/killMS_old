@@ -181,20 +181,28 @@ def estimate_xi_pseudo(Row0,Row1,xi=None):
         # xi=VecWeigth*ModMatOp.dotAvec(AHAinv,AHvec,Ntimes).conj()
         # timer.timeit(" 11")
 
+        #print "a"
+
         # #print "xi",xi
 
         AmatList=TOP.give_AnewList(xi,A0matList,AmatList,Ntimes)
+        #print "b"
         AHAList=ModMatOp.give_AHA_flatList(AmatList,Ntimes)
+        #print "c"
         AHAinvList=ModMatOp.invertAHAflatList(AHAList,Ntimes)
+        #print "d"
 
 
         # AHvecList=ModMatOp.dotAHvecList(AmatList,b,Ntimes)
         # xi=VecWeigth*ModMatOp.dotAvecList(AHAinvList,AHvecList,Ntimes).conj()
 
         predict0List=ModMatOp.dotAvecList(AmatList,xi.conj(),Ntimes)#np.dot(A,xi.conj())
+        #print "e"
 
         AHvecList=ModMatOp.dotAHvecList(AmatList,b-predict0List,Ntimes)
+        #print "f"
         xi+=0.5*ModMatOp.dotAvecList(AHAinvList,AHvecList,Ntimes).conj()
+        #print "g"
         #timer.timeit(" 22")
         #print 
         #xi*=VecWeigth
