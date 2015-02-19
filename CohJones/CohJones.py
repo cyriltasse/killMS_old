@@ -134,6 +134,7 @@ def main(options=None):
     else:
         invert=True
         kills=[]
+
     SM=ClassSM.ClassSM(options.SkyModel,infile_cluster="",killdirs=kills,invert=invert,solveFor=[],DoPrintCat=False)
     
     #PMachine=ClassPredict(MS,options.SkyModel,Cluster=options.ClusterList,NCluster=NCluster,NCPU=NCPU)
