@@ -62,11 +62,14 @@ class ClassPredict():
         V=uvwL[Row0:Row1,1].astype(float).flatten().copy()
         W=uvwL[Row0:Row1,2].astype(float).flatten().copy()
 
-        if Sols!=None:
-            TVec=self.MS.times_all[Row0:Row1]
-            A0Vec=self.MS.A0[Row0:Row1]
-            A1Vec=self.MS.A1[Row0:Row1]
+        #if Sols!=None:
+        #    TVec=self.MS.times_all[Row0:Row1]
+        #    A0Vec=self.MS.A0[Row0:Row1]
+        #    A1Vec=self.MS.A1[Row0:Row1]
 
+        TVec=self.MS.times_all[Row0:Row1]
+        A0Vec=self.MS.A0[Row0:Row1]
+        A1Vec=self.MS.A1[Row0:Row1]
 
         Dirs=list(set(SourceCat.Cluster.tolist()))
         NDir=len(Dirs)
