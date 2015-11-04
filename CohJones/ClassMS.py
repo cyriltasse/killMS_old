@@ -195,6 +195,10 @@ class ClassMS():
         SPW=table_all.getcol('DATA_DESC_ID',row0,nRowRead)
         A0=table_all.getcol('ANTENNA1',row0,nRowRead)[SPW==self.ListSPW[0]]
         A1=table_all.getcol('ANTENNA2',row0,nRowRead)[SPW==self.ListSPW[0]]
+        
+        if A0[0]!=A1[0]:
+            raise ValueError("AUTOCORRELATION HAVE TO BE PRESENT")
+
         #print self.ListSPW[0]
         time_all=table_all.getcol("TIME")[SPW==self.ListSPW[0]]
         #print np.max(time_all)-np.min(time_all)
